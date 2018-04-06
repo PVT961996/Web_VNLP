@@ -1,0 +1,80 @@
+[
+    {
+        "name": "id",
+        "dbType": "increments",
+        "htmlType": "",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false
+    },
+    {
+        "name": "short_description",
+        "dbType": "text",
+        "htmlType": "textarea"
+    },
+    {
+        "name": "description",
+        "dbType": "text",
+        "htmlType": "textarea"
+    },
+    {
+        "name": "offer_counts",
+        "dbType": "integer:unsigned",
+        "htmlType": "number",
+        "searchable": false
+    },
+    {
+        "name": "view_counts",
+        "dbType": "integer:unsigned",
+        "htmlType": "number",
+        "searchable": false
+    },
+    {
+        "name": "file",
+        "dbType": "string",
+        "htmlType": "file",
+        "searchable": false
+    },
+    {
+        "name": "link_download",
+        "dbType": "string",
+        "htmlType": "text",
+        "searchable": false
+    },{
+        "name": "source",
+        "dbType": "string",
+        "htmlType": "text",
+        "searchable": false
+    },
+    {
+        "name": "post_id",
+        "dbType": "integer:unsigned:foreign,documents,id",
+        "htmlType": "text",
+        "relation": "mt1,Document,post_id,id"
+    },
+    {
+        "name": "created_at",
+        "dbType": "timestamp",
+        "htmlType": "",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false
+    },
+    {
+        "name": "updated_at",
+        "dbType": "timestamp",
+        "htmlType": "",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false
+    }
+]
