@@ -84,3 +84,12 @@ Route::get('superadmin/sentences/{sentences}', 'Superadmin\SentenceAPIController
 Route::put('superadmin/sentences/{sentences}', 'Superadmin\SentenceAPIController@update');
 Route::patch('superadmin/sentences/{sentences}', 'Superadmin\SentenceAPIController@update');
 Route::delete('superadmin/sentences{sentences}', 'Superadmin\SentenceAPIController@destroy');
+
+
+
+Route::get('superadmin/document_files', 'Superadmin\DocumentFileAPIController@index');
+Route::post('superadmin/document_files', 'Superadmin\DocumentFileAPIController@store');
+Route::get('superadmin/document_files/{document_files}', 'Superadmin\DocumentFileAPIController@show');
+Route::put('superadmin/document_files/{document_files}', 'Superadmin\DocumentFileAPIController@update');
+Route::patch('superadmin/document_files/{document_files}', 'Superadmin\DocumentFileAPIController@update');
+Route::delete('superadmin/document_files{document_files}', 'Superadmin\DocumentFileAPIController@destroy');

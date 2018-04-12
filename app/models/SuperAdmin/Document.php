@@ -84,11 +84,6 @@ class Document extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function files()
-    {
-        return $this->hasMany(\App\Models\SuperAdmin\File::class);
-    }
-
     public function offerPosts()
     {
         return $this->hasMany(\App\Models\SuperAdmin\OfferPost::class);
@@ -97,5 +92,19 @@ class Document extends Model
     public function categories()
     {
         return $this->belongsToMany('App\Models\SuperAdmin\CategoryDoc', 'document_categories', 'document_id', 'category_id');
+    }
+
+//    public function parent() {
+//        return $this->belongsTo('App\Models\SuperAdmin\Document', 'parent_id');
+//    }
+//
+//    public function children($columns = ['*'])
+//    {
+//        return $this->hasMany('App\Models\SuperAdmin\Document', 'parent_id')->orderBy('orderSort','asc')->orderBy('updated_at','desc')->get($columns);
+//    }
+
+    public function files()
+    {
+        return $this->belongsToMany('App\Models\SuperAdmin\File', 'document_files', 'document_id', 'file_id');
     }
 }

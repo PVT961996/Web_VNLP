@@ -22,7 +22,7 @@
                 <td>{{$file->summary}}</td>
                 <td>{{str_limit($file->content, $limit = 150, $end = '...')}}</td>
                 <td>{{str_limit($file->description, $limit = 150, $end = '...')}}</td>
-                <td>{{$file->document->name}}</td>
+                <td>{!! Helper::formatCategories($file->documents,"<br>") !!}</td>
                 <td style="min-width: 110px">
                     {!! Form::open(['route' => ['superadmin.files.destroy', $file->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

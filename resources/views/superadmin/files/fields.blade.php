@@ -7,19 +7,13 @@
 <!-- Content Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('content', __('messages.file_content')) !!}
-    {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
+    {{ Form::textarea('content', null, ['class' => 'form-control']) }}
 </div>
 
 <!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('description', __('messages.file_description')) !!}
-    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- File Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('document_id', __('messages.file_document')) !!}
-    {!! Form::select('document_id', $documents, isset($selectedDocument) ? $selectedDocument : null, ['class' => 'form-control']) !!}
+    {{ Form::textarea('description', null, ['class' => 'form-control']) }}
 </div>
 
 <!-- Submit Field -->

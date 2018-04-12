@@ -3,6 +3,7 @@
 namespace App\Models\Superadmin;
 
 use Eloquent as Model;
+use App\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -27,10 +28,12 @@ class File extends Model
 
 
     public $fillable = [
+        'name',
         'summary',
         'content',
         'description',
-        'document_id'
+        'document_id',
+        'user_id'
     ];
 
     /**
@@ -39,10 +42,12 @@ class File extends Model
      * @var array
      */
     protected $casts = [
+        'name' => 'string',
         'summary' => 'string',
         'content' => 'string',
         'description' => 'string',
-        'document_id' => 'integer'
+        'document_id' => 'integer',
+        'user_id' => 'integer'
     ];
 
     /**
@@ -57,8 +62,15 @@ class File extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function document()
+
+    public function documents()
     {
-        return $this->belongsTo(\App\Models\Superadmin\Document::class, 'document_id', 'id');
+        return $this->belongsToMany('App\Models\SuperAdmin\Document', 'document_files', 'file_id', 'document_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
 }

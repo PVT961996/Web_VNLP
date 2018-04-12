@@ -27,7 +27,7 @@ $('#items').submit();}")) }}
                 <div class="box-tools-search">
                     {!! Form::open(['method' => 'GET','route' => 'superadmin.sentences.index','role' => 'search']) !!}
                     <div class="form-inline text-right">
-                        {!!Form::select('search[file_id]', $fileCorpus, null, ['class' => 'form-control','id'=> 'file', ])!!}
+{{--                        {!!Form::select('search[file_id]', $fileCorpus, null, ['class' => 'form-control','id'=> 'file', ])!!}--}}
                         {!! Form::text('search[content]', null, ['class' => 'form-control', 'placeholder' => Lang::get('messages.file_content')]) !!}
                         {!! Form::button('<i class="fa fa-search"></i> '.Lang::get('messages.search'), ['class' => 'btn btn-primary','type'=>'submit']) !!}
                         <a class="btn btn-warning" href="{!! route('superadmin.sentences.index') !!}"><i class="fa fa-eraser"></i> @lang('messages.reset')</a>
@@ -43,7 +43,7 @@ $('#items').submit();}")) }}
             @if($sentences->hasPages())
                 <div class="box-footer clearfix">
                     {!! $sentences->appends(['search' => Request::get('search')])->render() !!}
-                </div><!-- box-footer -->
+                </div>
             @endif
         </div>
     </section>

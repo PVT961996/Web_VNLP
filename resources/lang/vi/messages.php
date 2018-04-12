@@ -239,4 +239,8 @@ return [
     //Auth messages
     'forgot_password_start_message' => 'Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu tài khoản với email của bạn.',
     'forgot_password_end_message' => 'Nếu không phải bạn yêu cầu, không cần thực hiện đặt lại mật khẩu',
+
+    //FRONT END
+    'frontend_dashboard_page' => 'Trang quản trị',
+    'frontend_corpus_categories' => 'Danh mục Corpus',
 ];

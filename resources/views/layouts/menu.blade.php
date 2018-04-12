@@ -97,3 +97,7 @@
         </li>
     </ul>
 </li>
+{{--<li class="{{ Request::is('documentFiles*') ? 'active' : '' }}">--}}
+    {{--<a href="{!! route('superadmin.documentFiles.index') !!}"><i class="fa fa-edit"></i><span>Document Files</span></a>--}}
+{{--</li>--}}
+

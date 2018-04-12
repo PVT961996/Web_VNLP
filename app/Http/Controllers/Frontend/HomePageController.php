@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Frontend\FrontendBaseController;
+use App\Repositories\Superadmin\FileRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -10,18 +12,19 @@ use App\Http\Requests\Superadmin\CreateDocumentRequest;
 use App\Http\Requests\Superadmin\UpdateDocumentRequest;
 use App\Repositories\Superadmin\DocumentRepository;
 
-class HomePageController extends Controller
+class HomePageController extends FrontendBaseController
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    private $documentRepository;
+    private $fileRepository;
 
-    public function __construct(DocumentRepository $documentRepo)
+    public function __construct(DocumentRepository $documentRepo, FileRepository $fileRepo)
     {
-        $this->documentRepository = $documentRepo;
+        parent::__construct($documentRepo);
+        $this->fileRepository = $fileRepo;
     }
 
     /**
@@ -31,8 +34,9 @@ class HomePageController extends Controller
      */
     public function index()
     {
-//        $documents = $this->documentRepository->orderBy('updated_at', 'DESC')->paginate(10);
-        return view('frontend.homepage.index');
+        $documents = $this->getDocuments();
+        $files = $this->fileRepository->paginate(10);
+        return view('frontend.homepage.index',compact('documents','files'));
     }
 
     public function show($id)

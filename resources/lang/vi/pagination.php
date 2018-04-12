@@ -15,5 +15,6 @@ return [
 
     'previous' => '&laquo; Trước',
     'next' => 'Tiếp &raquo;',
+    'info' => 'Hiển thị từ <b>:from</b> đến <b>:to</b> trên tổng <b>:total</b> bản ghi.'
 
 ];

@@ -7,6 +7,7 @@ use App\Http\Requests\Superadmin\CreateDocumentRequest;
 use App\Http\Requests\Superadmin\UpdateDocumentRequest;
 use App\Repositories\Superadmin\CategoryDocRepository;
 use App\Repositories\Superadmin\DocumentCategoryRepository;
+use App\Repositories\Superadmin\DocumentFileRepository;
 use App\Repositories\Superadmin\DocumentRepository;
 use App\Repositories\Superadmin\FileRepository;
 use App\Repositories\Superadmin\SentenceRepository;
@@ -14,6 +15,8 @@ use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Response;
+use FilesystemIterator;
+use Illuminate\Support\Facades\DB;
 
 class DocumentController extends AppBaseController
 {
@@ -23,14 +26,16 @@ class DocumentController extends AppBaseController
     private $sentenceRepository;
     private $categoryDocRepository;
     private $docCategoryRepository;
+    private $docFileRepository;
 
-    public function __construct(DocumentRepository $documentRepo, FileRepository $fileRepo, SentenceRepository $sentenceRepo, CategoryDocRepository $categoryDocRepo, DocumentCategoryRepository $docCategoryRepo)
+    public function __construct(DocumentRepository $documentRepo, FileRepository $fileRepo, SentenceRepository $sentenceRepo, CategoryDocRepository $categoryDocRepo, DocumentCategoryRepository $docCategoryRepo, DocumentFileRepository $docFileRepo)
     {
         $this->documentRepository = $documentRepo;
         $this->fileRepository = $fileRepo;
         $this->sentenceRepository = $sentenceRepo;
         $this->categoryDocRepository = $categoryDocRepo;
         $this->docCategoryRepository = $docCategoryRepo;
+        $this->docFileRepository = $docFileRepo;
     }
 
     /**
@@ -82,10 +87,10 @@ class DocumentController extends AppBaseController
     public function store(CreateDocumentRequest $request)
     {
         $input = $request->all();
-        if ($request->categories == null) {
-            Flash::error(__('messages.document_flash_select_category'));
-            return back()->withInput();
-        }
+//        if ($request->categories == null) {
+//            Flash::error(__('messages.document_flash_select_category'));
+//            return back()->withInput();
+//        }
         $input["user_id"] = Auth::user()->id;
         $input["description"] = strip_tags($input["description"]);
         $input["short_description"] = strip_tags($input["short_description"]);
@@ -223,17 +228,127 @@ class DocumentController extends AppBaseController
         return redirect(route('superadmin.documents.index'));
     }
 
-    public function readFile()
+    public function readFileGrammar()
     {
-        ini_set('memory_limit', '256M');
-        $files = scandir('data/Tach_tu');
-        set_time_limit(40*count($files));
-        foreach ($files as $file){
-            $this->recursiveFile('data/Tach_tu/'.$file,$file);
+        ini_set('memory_limit', '512M');
+        $files = scandir('data/Cay_cu_phap');
+        set_time_limit(40 * count($files));
+        foreach ($files as $file) {
+//             doc file, luu file
+//            dong file
+            if (preg_match('/raw$/', $file)) {
+                echo "ok";
+                $fp = @fopen('data/Cay_cu_phap/' . $file, "r");
+                if ($fp) {
+                    echo "ok";
+                    if (filesize('data/Cay_cu_phap/' . $file) > 0) {
+                        $data = fread($fp, filesize('data/Cay_cu_phap/' . $file));
+                        $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                        $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 5]);
+                        fclose($fp);
+                        $this->recursiveFile('data/Cay_cu_phap/' . $file, $file_db->id);
+                    }
+                } else {
+                    echo "fail";
+                }
+            } else {
+                $this->recursiveFileGrammar('data/Cay_cu_phap/' . $file, $file);
+            }
         }
     }
 
-    public function recursiveFile($path, $file_name){
+    public function readFile()
+    {
+//        $fi = new FilesystemIterator('data/Gan_nhan_tu_loai/', FilesystemIterator::SKIP_DOTS);
+//        printf("There were %d Files", iterator_count($fi));
+
+        ini_set('memory_limit', '512M');
+        $files = scandir('data/Gan_nhan_tu_loai');
+        set_time_limit(40 * count($files));
+        foreach ($files as $file) {
+//             doc file, luu file
+//            dong file
+            $fp = @fopen('data/Gan_nhan_tu_loai/' . $file, "r");
+            if ($fp) {
+                echo "ok";
+                if (filesize('data/Gan_nhan_tu_loai/' . $file) > 0) {
+                    $data = fread($fp, filesize('data/Gan_nhan_tu_loai/' . $file));
+                    $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                    $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 1]);
+                    $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 2]);
+                    fclose($fp);
+                    $this->recursiveFile('data/Gan_nhan_tu_loai/' . $file, $file_db->id);
+                }
+            } else {
+                echo "fail";
+            }
+
+        }
+    }
+
+    public function readFileSeperate()
+    {
+        ini_set('memory_limit', '512M');
+        $files = scandir('data/Tach_tu');
+        set_time_limit(40 * count($files));
+        foreach ($files as $file) {
+            $this->recursiveFileSeperate('data/Tach_tu/' . $file, $file);
+        }
+    }
+
+    //TODO Gán nhãn từ loại
+    public function recursiveFile($path, $file_id)
+    {
+        $fp = @fopen($path, "r");
+        // Kiểm tra file mở thành công không
+        if ($fp) {
+            echo 'Mở file thành công <br>';
+            if (filesize($path) > 0) {
+                while (($buffer = fgets($fp)) !== false) {
+                    $this->sentenceRepository->create(['content' => $buffer, 'file_id' => $file_id]);
+                    echo $buffer;
+                }
+                if (!feof($fp)) {
+                    echo "Error: unexpected fgets() fail\n";
+                }
+                fclose($fp);
+            }
+        }
+
+
+//        if (!$fp) {
+//            echo 'Mở file không thành công <br>';
+//        } else {
+//            if (filesize($path) > 0) {
+//                DB::beginTransaction();
+//                try {
+//                    $data = fread($fp, filesize($path));
+//                    $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+//                    $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 1]);
+//                    $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 2]);
+//
+//                    // Đọc file và trả về nội dung
+//                    echo 'Mở file thành công <br>';
+//                    while (($buffer = fgets($fp, 4096)) !== false) {
+//                        echo('hhh' . $buffer . '<br>');
+//                        $this->sentenceRepository->create(['content' => $buffer, 'file_id' => $file->id]);
+//                    }
+//                    if (!feof($fp)) {
+//                        dd('jjjj');
+//                    }
+//
+//                    fclose($fp);
+//                } catch (\Exception $e) {
+//                    DB::rollback();
+//                    // something went wrong
+//                }
+//            }
+//        }
+    }
+
+    //TODO Tách từ
+    public function recursiveFileSeperate($path, $file_name)
+    {
         $fp = @fopen($path, "r");
         // Kiểm tra file mở thành công không
         if (!$fp) {
@@ -241,9 +356,29 @@ class DocumentController extends AppBaseController
         } else {
             // Đọc file và trả về nội dung
             echo 'Mở file thành công';
-            $data = fread($fp, filesize($path));
-            $document = $this->documentRepository->create(['short_description' => $data, 'description' => $data, 'user_id' => Auth::user()->id, 'file' => $file_name, 'name' => $file_name]);
-            $this->docCategoryRepository->create(['category_id' => 1, 'document_id' => $document->id]);
+            if (filesize($path) > 0) {
+                $data = fread($fp, filesize($path));
+                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 1]);
+            }
+        }
+    }
+
+    //TODO: Cây cú pháp
+    public function recursiveFileGrammar($path, $file_name)
+    {
+        $fp = @fopen($path, "r");
+        // Kiểm tra file mở thành công không
+        if (!$fp) {
+            echo 'Mở file không thành công';
+        } else {
+            // Đọc file và trả về nội dung
+            echo 'Mở file thành công';
+            if (filesize($path) > 0) {
+                $data = fread($fp, filesize($path));
+                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 4]);
+            }
         }
     }
 }

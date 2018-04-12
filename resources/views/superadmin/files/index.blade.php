@@ -17,7 +17,8 @@
                 <h3 class="box-title"></h3>
 
                 <div class="box-tools">
-                    <a class="btn btn-primary" href="{!! route('superadmin.files.create') !!}"><i class="fa fa-plus"></i> @lang('messages.create')</a>
+                    <a class="btn btn-primary" href="{!! route('superadmin.files.create') !!}"><i
+                                class="fa fa-plus"></i> @lang('messages.create')</a>
                     {{ Form::button('<i class="fa fa-remove"></i> '.Lang::get('messages.delete-all'), array('class'=>'btn btn-danger', 'onclick' => "var r = confirm('".Lang::get('messages.delete_more_confirm')."'); if (r == true) {
 $('#items').submit();}")) }}
                 </div>
@@ -30,7 +31,8 @@ $('#items').submit();}")) }}
                         {!!Form::select('search[document_id]', $documents, null, ['class' => 'form-control','id'=> 'document', ])!!}
                         {!! Form::text('search[content]', null, ['class' => 'form-control', 'placeholder' => Lang::get('messages.file_content')]) !!}
                         {!! Form::button('<i class="fa fa-search"></i> '.Lang::get('messages.search'), ['class' => 'btn btn-primary','type'=>'submit']) !!}
-                        <a class="btn btn-warning" href="{!! route('superadmin.files.index') !!}"><i class="fa fa-eraser"></i> @lang('messages.reset')</a>
+                        <a class="btn btn-warning" href="{!! route('superadmin.files.index') !!}"><i
+                                    class="fa fa-eraser"></i> @lang('messages.reset')</a>
                     </div>
                     {!! Form::close() !!}
                 </div>
@@ -41,9 +43,9 @@ $('#items').submit();}")) }}
                 @include('superadmin.files.table')
             </div>
             @if($files->hasPages())
-            <div class="box-footer clearfix">
-            {!! $files->appends(['search' => Request::get('search')])->render() !!}
-            </div><!-- box-footer -->
+                <div class="box-footer clearfix">
+                    {!! $files->appends(['search' => Request::get('search')])->render() !!}
+                </div>
             @endif
         </div>
     </section>

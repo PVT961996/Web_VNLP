@@ -11,7 +11,7 @@
         @include('vendor.flash.errors')
         {!! Form::open(['route' => 'superadmin.documents.store','enctype'=>'multipart/form-data']) !!}
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="box box-solid box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-plus"></i> @lang('messages.create')</h3>
@@ -28,9 +28,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                @include('shared.categories', ['categories' => $categories, 'selectedCategories' => $selectedCategories])
-            </div>
+            {{--<div class="col-md-3">--}}
+                {{--@include('shared.categories', ['categories' => $categories, 'selectedCategories' => $selectedCategories])--}}
+            {{--</div>--}}
         </div>
         {!! Form::close() !!}
     </div>

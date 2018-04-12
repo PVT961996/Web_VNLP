@@ -10,7 +10,7 @@
 
         {!! Form::model($file, ['route' => ['superadmin.files.update', $file->id], 'method' => 'patch','enctype'=>'multipart/form-data']) !!}
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-9">
                 <div class="box box-solid box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-edit"></i> @lang('messages.update')</h3>
@@ -26,6 +26,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-3">
+                @include('shared.categories', ['categories' => $categories, 'selectedCategories' => $selectedCategories])
             </div>
         </div>
         {!! Form::close() !!}

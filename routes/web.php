@@ -11,11 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Route::get('/', ['as' => 'homepage.index', 'uses' => 'HomePageController@index']);
+Route::get('/', ['as' => 'homepage', 'uses' => 'FrontEnd\HomePageController@index']);
 
 
 
@@ -69,7 +69,9 @@ Route::group(['middleware' => ['auth.superadmin']], function () {
     Route::delete('superadmin/documents/{documents}', ['as' => 'superadmin.documents.destroy', 'uses' => 'SuperAdmin\DocumentController@destroy']);
     Route::get('superadmin/documents/{documents}', ['as' => 'superadmin.documents.show', 'uses' => 'SuperAdmin\DocumentController@show']);
     Route::get('superadmin/documents/{documents}/edit', ['as' => 'superadmin.documents.edit', 'uses' => 'SuperAdmin\DocumentController@edit']);
-    Route::get('superadmin/readFile', ['as' => 'superadmin.documents.readFile', 'uses' => 'SuperAdmin\DocumentController@readFile']);
+//    Route::get('superadmin/readFile', ['as' => 'superadmin.documents.readFile', 'uses' => 'SuperAdmin\DocumentController@readFile']);
+//    Route::get('superadmin/readFileSeperate', ['as' => 'superadmin.documents.readFileSeperate', 'uses' => 'SuperAdmin\DocumentController@readFileSeperate']);
+//    Route::get('superadmin/readFileGrammar', ['as' => 'superadmin.documents.readFileGrammar', 'uses' => 'SuperAdmin\DocumentController@readFileGrammar']);
 
 
     Route::get('superadmin/documentCategories', ['as' => 'superadmin.documentCategories.index', 'uses' => 'Superadmin\DocumentCategoryController@index']);
@@ -108,9 +110,20 @@ Route::group(['middleware' => ['auth.superadmin']], function () {
     Route::delete('superadmin/sentences/{sentences}', ['as' => 'superadmin.sentences.destroy', 'uses' => 'Superadmin\SentenceController@destroy']);
     Route::get('superadmin/sentences/{sentences}', ['as' => 'superadmin.sentences.show', 'uses' => 'Superadmin\SentenceController@show']);
     Route::get('superadmin/sentences/{sentences}/edit', ['as' => 'superadmin.sentences.edit', 'uses' => 'Superadmin\SentenceController@edit']);
+
+    Route::get('superadmin/documentFiles', ['as'=> 'superadmin.documentFiles.index', 'uses' => 'Superadmin\DocumentFileController@index']);
+    Route::post('superadmin/documentFiles', ['as'=> 'superadmin.documentFiles.store', 'uses' => 'Superadmin\DocumentFileController@store']);
+    Route::get('superadmin/documentFiles/create', ['as'=> 'superadmin.documentFiles.create', 'uses' => 'Superadmin\DocumentFileController@create']);
+    Route::put('superadmin/documentFiles/{documentFiles}', ['as'=> 'superadmin.documentFiles.update', 'uses' => 'Superadmin\DocumentFileController@update']);
+    Route::patch('superadmin/documentFiles/{documentFiles}', ['as'=> 'superadmin.documentFiles.update', 'uses' => 'Superadmin\DocumentFileController@update']);
+    Route::delete('superadmin/documentFiles/{documentFiles}', ['as'=> 'superadmin.documentFiles.destroy', 'uses' => 'Superadmin\DocumentFileController@destroy']);
+    Route::get('superadmin/documentFiles/{documentFiles}', ['as'=> 'superadmin.documentFiles.show', 'uses' => 'Superadmin\DocumentFileController@show']);
+    Route::get('superadmin/documentFiles/{documentFiles}/edit', ['as'=> 'superadmin.documentFiles.edit', 'uses' => 'Superadmin\DocumentFileController@edit']);
 });
 
 Route::group(['middleware' => ['auth.admin']], function () {
     Route::get('admin/dashboard', ['as' => 'admin.dashboard.index', 'uses' => 'Admin\DashboardController@index']);
 
 });
+
+Route::get('/tai-lieu', ['as' => 'documents', 'uses' => 'Frontend\DocumentController@index']);

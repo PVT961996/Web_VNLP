@@ -20,8 +20,8 @@
                 <td width="40px"><input type="checkbox" name="ids[]" value="{{ $sentence->id }}"
                                         class="minimal checkSingle"
                                         form="items"/></td>
-                <td>{!! $sentence->content !!}</td>
-                <td>{!! $sentence->file->content !!}</td>
+                <td>{{ str_limit($sentence->content, $limit = 100, $end = '...') }}</td>
+                <td>{!! $sentence->file->name !!}</td>
                 <td>
                     {!! Form::open(['route' => ['superadmin.sentences.destroy', $sentence->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

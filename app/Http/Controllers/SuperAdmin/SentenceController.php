@@ -32,8 +32,9 @@ class SentenceController extends AppBaseController
      */
     public function index(Request $request)
     {
+//        ini_set('memory_limit', '-1');
         $this->sentenceRepository->pushCriteria(new RequestCriteria($request));
-        $fileCorpus = $this->fileRepository->getAllForSelectBoxFile(['*'], null, true);
+//        $fileCorpus = $this->fileRepository->getAllForSelectBoxFile(['*'], null, true);
         $search = $request->search;
         $searchCondition = [['id', '<>', 0]];
         if (!empty($search)) {
@@ -48,7 +49,7 @@ class SentenceController extends AppBaseController
             $sentences = $this->sentenceRepository->orderBy('updated_at', 'desc')->findByField('id', '<>', 0, ['*'], true, 10);
         }
 
-        return view('superadmin.sentences.index', compact('sentences', 'fileCorpus'));
+        return view('superadmin.sentences.index', compact('sentences'));
     }
 
     /**
@@ -58,7 +59,7 @@ class SentenceController extends AppBaseController
      */
     public function create()
     {
-        $fileCorpus = $this->fileRepository->getAllFile();
+//        $fileCorpus = $this->fileRepository->getAllFile();
         $selectedFile = null;
         return view('superadmin.sentences.create', compact('fileCorpus', 'selectedFile'));
     }

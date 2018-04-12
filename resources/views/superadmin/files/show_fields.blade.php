@@ -8,17 +8,17 @@
 
     <tr>
         <th style="width: 150px" scope="row">{!! Form::label('content', __('messages.file_content')) !!}</th>
-        <td><p>{!! $file->content !!}</p></td>
+        <td><p>{{ $file->content }}</p></td>
     </tr>
 
     <tr>
         <th style="width: 150px" scope="row">{!! Form::label('description', __('messages.file_description')) !!}</th>
-        <td><p>{!! $file->description !!}</p></td>
+        <td><p>{{ $file->description }}</p></td>
     </tr>
 
     <tr>
-        <th style="width: 150px" scope="row">{!! Form::label('document_id', __('messages.file_document')) !!}</th>
-        <td><p>{!! $file->document->name !!}</p></td>
+        <th style="width: 150px" scope="row">{!! Form::label('category', __('messages.document_category')) !!}</th>
+        <td>{!! Helper::formatCategories($file->documents) !!}</td>
     </tr>
 
     <tr>

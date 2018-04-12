@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Requests\Superadmin\CreateFileRequest;
 use App\Http\Requests\Superadmin\UpdateFileRequest;
+use App\Repositories\Superadmin\DocumentFileRepository;
 use App\Repositories\Superadmin\FileRepository;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\Superadmin\SentenceRepository;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Repositories\Superadmin\DocumentRepository;
@@ -19,12 +21,14 @@ class FileController extends AppBaseController
     private $fileRepository;
     private $documentRepository;
     private $sentenceRepository;
+    private $documentFileRepository;
 
-    public function __construct(FileRepository $fileRepo, DocumentRepository $docRepo, SentenceRepository $sentenceRepo)
+    public function __construct(FileRepository $fileRepo, DocumentRepository $docRepo, SentenceRepository $sentenceRepo, DocumentFileRepository $documentFileRepo)
     {
         $this->fileRepository = $fileRepo;
         $this->documentRepository = $docRepo;
         $this->sentenceRepository = $sentenceRepo;
+        $this->documentFileRepository = $documentFileRepo;
     }
 
     /**
@@ -36,22 +40,27 @@ class FileController extends AppBaseController
     public function index(Request $request)
     {
         $this->fileRepository->pushCriteria(new RequestCriteria($request));
-        $documents = $this->documentRepository->getAllForSelectBox(['*'],null,true);
+        $documents = $this->documentRepository->getAllForSelectBox(['*'], null, true);
         $search = $request->search;
-        $searchCondition = [['id','<>',0]];
-        if(!empty($search)){
-            if(!empty($search['content'])){
-                array_push($searchCondition,['content','LIKE','%'.$search['content'].'%']);
+        $searchCondition = [];
+        if (!empty($search)) {
+            if (!empty($search['content'])) {
+                array_push($searchCondition, ['content', 'LIKE', '%' . $search['content'] . '%']);
             }
             if (!empty($search['document_id']) && $search['document_id'] != 0) {
-                array_push($searchCondition, ['document_id', '=', $search['document_id']]);
+                $temp = $this->fileRepository->search($searchCondition, $search['document_id']);
+                $files = $temp->orderBy('files.updated_at', 'desc')->paginate(16, ['files.*']);
+            } else {
+                $temp = $this->fileRepository->search($searchCondition);
+                $files = $temp->orderBy('files.updated_at', 'desc')->paginate(16, ['files.*']);
             }
-            $files = $this->fileRepository->orderBy('updated_at','desc')->search($searchCondition);
-        }else {
-            $files = $this->fileRepository->orderBy('updated_at', 'desc')->findByField('id', '<>', 0, ['*'], true, 10);
+        } else {
+            $files = $this->fileRepository->with('documents')->orderBy('updated_at', 'desc')->paginate(15);
+
+//        $files = $this->fileRepository->orderBy('updated_at', 'desc')->findByField('id', '<>', 0, ['*'], true, 10);
 
         }
-        return view('superadmin.files.index',compact('files','documents'));
+        return view('superadmin.files.index', compact('files', 'documents'));
     }
 
     /**
@@ -61,9 +70,11 @@ class FileController extends AppBaseController
      */
     public function create()
     {
-        $documents = $this->documentRepository->getAllDocument();
-        $selectedDocument = null;
-        return view('superadmin.files.create',compact('documents','selectedDocument'));
+        $categories = $this->documentRepository->all();
+        $selectedCategories = null;
+        $on_create = true;
+
+        return view('superadmin.files.create', compact('categories', 'selectedCategories', 'on_create'));
     }
 
     /**
@@ -76,6 +87,11 @@ class FileController extends AppBaseController
     public function store(CreateFileRequest $request)
     {
         $input = $request->all();
+        if ($request->documents == null) {
+            Flash::error(__('messages.document_flash_select_category'));
+            return back()->withInput();
+        }
+        $input['user_id'] = Auth::user()->id;
         $input["description"] = strip_tags($input["description"]);
         $input["content"] = strip_tags($input["content"]);
 
@@ -115,21 +131,26 @@ class FileController extends AppBaseController
     public function edit($id)
     {
         $file = $this->fileRepository->findWithoutFail($id);
-        $documents = $this->documentRepository->getAllDocument();
-        $selectedDocument= $file->document_id;
+        $categories = $this->documentRepository->all();
+        $selectedCategories = $this->documentFileRepository->findByField('file_id', '=', $id, ['document_id'], false)->toArray();
+        $arr = [];
+        foreach ($selectedCategories as $selectedCategory) {
+            array_push($arr, $selectedCategory['document_id']);
+        }
+        $selectedCategories = $arr;
 
         if (empty($file)) {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.files.index'));
         }
 
-        return view('superadmin.files.edit',compact('file','documents','selectedDocument'));
+        return view('superadmin.files.edit', compact('file', 'categories', 'selectedCategories'));
     }
 
     /**
      * Update the specified File in storage.
      *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateFileRequest $request
      *
      * @return Response
@@ -170,9 +191,13 @@ class FileController extends AppBaseController
 
                         return redirect(route('superadmin.files.index'));
                     }
-                    $sentences = $this->sentenceRepository->findByField('file_id','=',[$id],['*'],true,10);
-                    foreach ($sentences as $sentence){
+                    $sentences = $this->sentenceRepository->findByField('file_id', '=', [$id], ['*'], true, 10);
+                    foreach ($sentences as $sentence) {
                         $this->sentenceRepository->delete($sentence->id);
+                    }
+                    $document_files = $this->documentFileRepository->findByField('file_id', '=', [$id], ['*']);
+                    foreach ($document_files as $document_file) {
+                        $this->documentFileRepository->delete($document_file->id);
                     }
                     $this->fileRepository->delete($id);
                 }
@@ -187,9 +212,14 @@ class FileController extends AppBaseController
 
                 return redirect(route('superadmin.files.index'));
             }
-            $sentences = $this->sentenceRepository->findByField('file_id','=',[$id],['*'],true,10);
-            foreach ($sentences as $sentence){
+            $sentences = $this->sentenceRepository->findByField('file_id', '=', [$id], ['*'], true, 10);
+            foreach ($sentences as $sentence) {
                 $this->sentenceRepository->delete($sentence->id);
+            }
+
+            $document_files = $this->documentFileRepository->findByField('file_id', '=', [$id], ['*']);
+            foreach ($document_files as $document_file) {
+                $this->documentFileRepository->delete($document_file->id);
             }
             $this->fileRepository->delete($id);
 
