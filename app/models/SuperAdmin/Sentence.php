@@ -26,7 +26,9 @@ class Sentence extends Model
 
     public $fillable = [
         'content',
-        'file_id'
+        'file_id',
+        'evaluated',
+        'point'
     ];
 
     /**
@@ -36,7 +38,9 @@ class Sentence extends Model
      */
     protected $casts = [
         'content' => 'string',
-        'file_id' => 'integer'
+        'file_id' => 'integer',
+        'evaluated' => 'integer',
+        'point' => 'float'
     ];
 
     /**

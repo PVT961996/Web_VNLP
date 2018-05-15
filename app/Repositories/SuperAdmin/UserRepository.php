@@ -50,4 +50,18 @@ class UserRepository extends BGBaseRepository
         $this->applyConditions($condition);
         return $this->orderBy('updated_at', 'DESC')->paginate(5);
     }
+
+    public function getAllUser() {
+        $userList = $this->model->get();
+
+        $users = array();
+        $users[0] = '-- '.__('messages.select_user').' --';
+        foreach ($userList as $user) {
+            $users[$user->id] = $user->name;
+        }
+
+        $this->resetModel();
+
+        return $users;
+    }
 }

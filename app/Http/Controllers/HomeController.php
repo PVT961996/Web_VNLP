@@ -1,22 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Controllers\AppBaseController;
+use App\Repositories\Superadmin\DocumentFileRepository;
+use App\Repositories\Superadmin\FileRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Goutte\Client;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 use App\models\Chutro;
 
-class HomeController extends Controller
+class HomeController extends AppBaseController
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    private $fileRepository;
+    private $docFileRepository;
+
+    public function __construct(FileRepository $fileRepo,DocumentFileRepository $docFileRepo)
     {
         $this->middleware('auth');
+        $this->fileRepository = $fileRepo;
+        $this->docFileRepository = $docFileRepo;
     }
 
     /**
@@ -58,6 +68,10 @@ class HomeController extends Controller
         $points = $crawler->filter('.review-points > span')->each(function ($node) {
             return $node->text()."\r\n\r\n";
         });
+//        for($i = 0; $i < count($temp); $i++){
+//            $file_db = $this->fileRepository->create(['name' => 'CommentFoody'.$i, 'summary' => 'CommentFoody'.$i, 'content' => $temp[$i], 'description' => $temp[$i],'point' => $points[$i],'user_id' => Auth::user()->id]);
+//            $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 6]);
+//        }
         $array_last = [];
         for($i = 0; $i < count($temp); $i++){
            $temp[$i] == "" ? $array_last[$i] = "" : $array_last[$i] = $temp[$i]." ".$points[$i];
@@ -105,6 +119,28 @@ class HomeController extends Controller
         ];
         return Response::make($tdata, 200, $headers);
     }
+
+    public function getConceptWord(Request $request){
+        $client = new Client();
+        $word = preg_replace("/ /", "_", $request['word']);
+        $crawler = $client->request('GET', "https://vi.wikipedia.org/wiki/" . $word);
+        $tdata = "";
+        $tdata .= str_replace('_',' ',urldecode($word)) . "\r\n";
+        $temp = $crawler->filter('#mw-content-text > .mw-parser-output > p')->each(function ($node) {
+            return $node->text();
+        });
+
+        foreach ($temp as $text) {
+            $tdata .= $text . "\r\n";
+        }
+        $myName = "ConceptWord.txt";
+        $headers = [
+            'Content-type'=>'text/plain',
+            'Content-Disposition'=>sprintf('attachment; filename="%s"', $myName),
+        ];
+        return Response::make($tdata, 200, $headers);
+    }
+
     private $tdata = '';
     private $words = [];
     public function getDefindWord(Request $request){

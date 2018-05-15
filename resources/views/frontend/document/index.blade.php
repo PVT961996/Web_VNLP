@@ -9,7 +9,7 @@
                      class="img-responsive">
                 <div class="content-title">
                     <div class="text-center">
-                        <h3><a href="#">{{ str_limit($file->name, $limit = 100, $end = '...') }}</a>
+                        <h3><a href="{{ route("files.show", [$file->id]) }}">{{ str_limit($file->name, $limit = 100, $end = '...') }}</a>
                         </h3>
                     </div>
                 </div>
@@ -23,11 +23,11 @@
                         {{--<img src="/uploads/default-avatar.png" alt="{!! $user->name !!}" width="270" height="263">--}}
                     @endif
                     <span style="font-size: 16px;color: #fff;">{!! $file->user->name !!}</span>
-                    {{--<span class="pull-right">--}}
-                    {{--<a href="#" data-toggle="tooltip" data-placement="left" title="Comments"><i class="fa fa-comments"></i> 30</a>--}}
-                    {{--<a href="#" data-toggle="tooltip" data-placement="right" title="Loved"><i--}}
-                    {{--class="fa fa-heart"></i> 20</a>--}}
-                    {{--</span>--}}
+                    <span class="pull-right">
+                        <a href="#" data-toggle="tooltip" data-placement="left" title="Lượt xem"><i
+                    class="fa fa-eye"></i> {!! empty($file->view)? 0 : $file->view !!}</a>
+                        @include('shared.download')
+                    </span>
                 </div>
             </aside>
         </div>

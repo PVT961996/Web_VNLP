@@ -39,6 +39,7 @@ Route::get('/get_defind_word', 'Homecontroller@getDefindWord');
 Route::get('/test', 'CommentController@index');
 Route::get('/chu-tro', 'HostController@index');
 Route::get('/get_building', 'HostController@getBuilding');
+Route::get('/get_concept_word', 'Homecontroller@getConceptWord');
 
 Route::group(['middleware' => ['auth.superadmin']], function () {
     Route::get('superadmin/dashboard', ['as' => 'superadmin.dashboard.index', 'uses' => 'SuperAdmin\DashboardController@index']);
@@ -101,15 +102,20 @@ Route::group(['middleware' => ['auth.superadmin']], function () {
     Route::delete('superadmin/files/{files}', ['as' => 'superadmin.files.destroy', 'uses' => 'Superadmin\FileController@destroy']);
     Route::get('superadmin/files/{files}', ['as' => 'superadmin.files.show', 'uses' => 'Superadmin\FileController@show']);
     Route::get('superadmin/files/{files}/edit', ['as' => 'superadmin.files.edit', 'uses' => 'Superadmin\FileController@edit']);
+    Route::post('superadmin/files/evaluated', ['as'=> 'superadmin.files.evaluated', 'uses' => 'Superadmin\FileController@evaluated']);
+
+
 //Sentence
     Route::get('superadmin/sentences', ['as' => 'superadmin.sentences.index', 'uses' => 'Superadmin\SentenceController@index']);
     Route::post('superadmin/sentences', ['as' => 'superadmin.sentences.store', 'uses' => 'Superadmin\SentenceController@store']);
     Route::get('superadmin/sentences/create', ['as' => 'superadmin.sentences.create', 'uses' => 'Superadmin\SentenceController@create']);
     Route::put('superadmin/sentences/{sentences}', ['as' => 'superadmin.sentences.update', 'uses' => 'Superadmin\SentenceController@update']);
     Route::patch('superadmin/sentences/{sentences}', ['as' => 'superadmin.sentences.update', 'uses' => 'Superadmin\SentenceController@update']);
+    Route::patch('superadmin/sentences/{sentences}/update_high', ['as' => 'superadmin.sentences.update_high', 'uses' => 'Superadmin\SentenceController@update_high']);
     Route::delete('superadmin/sentences/{sentences}', ['as' => 'superadmin.sentences.destroy', 'uses' => 'Superadmin\SentenceController@destroy']);
     Route::get('superadmin/sentences/{sentences}', ['as' => 'superadmin.sentences.show', 'uses' => 'Superadmin\SentenceController@show']);
     Route::get('superadmin/sentences/{sentences}/edit', ['as' => 'superadmin.sentences.edit', 'uses' => 'Superadmin\SentenceController@edit']);
+    Route::get('superadmin/sentences/{sentences}/edit_high', ['as' => 'superadmin.sentences.edit_high', 'uses' => 'Superadmin\SentenceController@edit_high']);
 
     Route::get('superadmin/documentFiles', ['as'=> 'superadmin.documentFiles.index', 'uses' => 'Superadmin\DocumentFileController@index']);
     Route::post('superadmin/documentFiles', ['as'=> 'superadmin.documentFiles.store', 'uses' => 'Superadmin\DocumentFileController@store']);
@@ -119,6 +125,24 @@ Route::group(['middleware' => ['auth.superadmin']], function () {
     Route::delete('superadmin/documentFiles/{documentFiles}', ['as'=> 'superadmin.documentFiles.destroy', 'uses' => 'Superadmin\DocumentFileController@destroy']);
     Route::get('superadmin/documentFiles/{documentFiles}', ['as'=> 'superadmin.documentFiles.show', 'uses' => 'Superadmin\DocumentFileController@show']);
     Route::get('superadmin/documentFiles/{documentFiles}/edit', ['as'=> 'superadmin.documentFiles.edit', 'uses' => 'Superadmin\DocumentFileController@edit']);
+
+    Route::get('superadmin/labelTypes', ['as'=> 'superadmin.labelTypes.index', 'uses' => 'Superadmin\LabelTypeController@index']);
+    Route::post('superadmin/labelTypes', ['as'=> 'superadmin.labelTypes.store', 'uses' => 'Superadmin\LabelTypeController@store']);
+    Route::get('superadmin/labelTypes/create', ['as'=> 'superadmin.labelTypes.create', 'uses' => 'Superadmin\LabelTypeController@create']);
+    Route::put('superadmin/labelTypes/{labelTypes}', ['as'=> 'superadmin.labelTypes.update', 'uses' => 'Superadmin\LabelTypeController@update']);
+    Route::patch('superadmin/labelTypes/{labelTypes}', ['as'=> 'superadmin.labelTypes.update', 'uses' => 'Superadmin\LabelTypeController@update']);
+    Route::delete('superadmin/labelTypes/{labelTypes}', ['as'=> 'superadmin.labelTypes.destroy', 'uses' => 'Superadmin\LabelTypeController@destroy']);
+    Route::get('superadmin/labelTypes/{labelTypes}', ['as'=> 'superadmin.labelTypes.show', 'uses' => 'Superadmin\LabelTypeController@show']);
+    Route::get('superadmin/labelTypes/{labelTypes}/edit', ['as'=> 'superadmin.labelTypes.edit', 'uses' => 'Superadmin\LabelTypeController@edit']);
+
+    Route::get('superadmin/fileUsers', ['as'=> 'superadmin.fileUsers.index', 'uses' => 'Superadmin\FileUserController@index']);
+    Route::post('superadmin/fileUsers', ['as'=> 'superadmin.fileUsers.store', 'uses' => 'Superadmin\FileUserController@store']);
+    Route::get('superadmin/fileUsers/create', ['as'=> 'superadmin.fileUsers.create', 'uses' => 'Superadmin\FileUserController@create']);
+    Route::put('superadmin/fileUsers/{fileUsers}', ['as'=> 'superadmin.fileUsers.update', 'uses' => 'Superadmin\FileUserController@update']);
+    Route::patch('superadmin/fileUsers/{fileUsers}', ['as'=> 'superadmin.fileUsers.update', 'uses' => 'Superadmin\FileUserController@update']);
+    Route::delete('superadmin/fileUsers/{fileUsers}', ['as'=> 'superadmin.fileUsers.destroy', 'uses' => 'Superadmin\FileUserController@destroy']);
+    Route::get('superadmin/fileUsers/{fileUsers}', ['as'=> 'superadmin.fileUsers.show', 'uses' => 'Superadmin\FileUserController@show']);
+    Route::get('superadmin/fileUsers/{fileUsers}/edit', ['as'=> 'superadmin.fileUsers.edit', 'uses' => 'Superadmin\FileUserController@edit']);
 });
 
 Route::group(['middleware' => ['auth.admin']], function () {
@@ -127,3 +151,6 @@ Route::group(['middleware' => ['auth.admin']], function () {
 });
 
 Route::get('/tai-lieu', ['as' => 'documents', 'uses' => 'Frontend\DocumentController@index']);
+Route::get('/files/{files}', ['as' => 'files.show', 'uses' => 'Frontend\FileController@show']);
+Route::get('/files_corpus', ['as' => 'files', 'uses' => 'Frontend\FileController@index']);
+Route::get('/danh-muc-corpus', ['as' => 'categoryDoc', 'uses' => 'Frontend\CategoryDocumentController@index']);

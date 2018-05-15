@@ -183,6 +183,54 @@ Breadcrumbs::register('superadmin.sentences.show', function($breadcrumbs, $sente
 
 Breadcrumbs::register('superadmin.sentences.edit', function($breadcrumbs, $sentences) {
     $breadcrumbs->parent('superadmin.sentences.index');
-    $breadcrumbs->push(__('messages.edit'), route('superadmin.offerPosts.edit', $sentences->id));
+    $breadcrumbs->push(__('messages.edit'), route('superadmin.sentences.edit', $sentences->id));
 });
 # END Sentences
+
+# START LabelTypes
+Breadcrumbs::register('superadmin.labelTypes.index', function($breadcrumbs)
+{
+    $breadcrumbs->parent('superadmin.dashboard.index');
+    $breadcrumbs->push(__('messages.label_types'), route('superadmin.labelTypes.index'));
+});
+Breadcrumbs::register('superadmin.labelTypes.create', function($breadcrumbs)
+{
+    $breadcrumbs->parent('superadmin.labelTypes.index');
+    $breadcrumbs->push(__('messages.create'), route('superadmin.labelTypes.create'));
+});
+
+Breadcrumbs::register('superadmin.labelTypes.show', function($breadcrumbs, $labelTypes)
+{
+    $breadcrumbs->parent('superadmin.labelTypes.index');
+    $breadcrumbs->push(__('messages.show'), route('superadmin.labelTypes.show', $labelTypes->id));
+});
+
+Breadcrumbs::register('superadmin.labelTypes.edit', function($breadcrumbs, $labelTypes) {
+    $breadcrumbs->parent('superadmin.labelTypes.index');
+    $breadcrumbs->push(__('messages.edit'), route('superadmin.labelTypes.edit', $labelTypes->id));
+});
+# END LabelTypes
+
+# START FileUsers
+Breadcrumbs::register('superadmin.fileUsers.index', function($breadcrumbs)
+{
+    $breadcrumbs->parent('superadmin.dashboard.index');
+    $breadcrumbs->push(__('messages.file_users'), route('superadmin.fileUsers.index'));
+});
+Breadcrumbs::register('superadmin.fileUsers.create', function($breadcrumbs)
+{
+    $breadcrumbs->parent('superadmin.fileUsers.index');
+    $breadcrumbs->push(__('messages.create'), route('superadmin.fileUsers.create'));
+});
+
+Breadcrumbs::register('superadmin.fileUsers.show', function($breadcrumbs, $fileUsers)
+{
+    $breadcrumbs->parent('superadmin.fileUsers.index');
+    $breadcrumbs->push(__('messages.show'), route('superadmin.fileUsers.show', $fileUsers->id));
+});
+
+Breadcrumbs::register('superadmin.fileUsers.edit', function($breadcrumbs, $fileUsers) {
+    $breadcrumbs->parent('superadmin.fileUsers.index');
+    $breadcrumbs->push(__('messages.edit'), route('superadmin.fileUsers.edit', $fileUsers->id));
+});
+# END FileUsers

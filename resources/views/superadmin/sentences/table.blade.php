@@ -29,6 +29,10 @@
                            class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
                         <a href="{!! route('superadmin.sentences.edit', [$sentence->id]) !!}"
                            class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                        @if($sentence->file->documents[0]->type == 1)
+                            <a href="{!! route('superadmin.sentences.edit_high', [$sentence->id]) !!}"
+                               class='btn btn-default btn-xs'><i class="fa fa-pencil"></i></a>
+                        @endif
                         {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}

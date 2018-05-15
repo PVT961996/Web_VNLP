@@ -16,15 +16,23 @@
                 <button type="submit" class="btn btn-primary">Gửi</button>
             </div>
         </form>
-        <form method="get" action="/get_comment_multiple_link">
+        <form method="get" action="/get_concept_word">
             <div class="form-group col-md-4">
-                <input type="text" class="form-control" name="all_link" placeholder="Nhập đường dẫn của trang web:"
-                       value="https://www.foody.vn/ha-noi">
+                <input type="text" class="form-control" name="word" placeholder="Nhập từ cần tra định nghĩa">
             </div>
             <div class="form-group col-md-2">
                 <button type="submit" class="btn btn-primary">Gửi</button>
             </div>
         </form>
+        {{--<form method="get" action="/get_comment_multiple_link">--}}
+            {{--<div class="form-group col-md-4">--}}
+                {{--<input type="text" class="form-control" name="all_link" placeholder="Nhập đường dẫn của trang web:"--}}
+                       {{--value="https://www.foody.vn/ha-noi">--}}
+            {{--</div>--}}
+            {{--<div class="form-group col-md-2">--}}
+                {{--<button type="submit" class="btn btn-primary">Gửi</button>--}}
+            {{--</div>--}}
+        {{--</form>--}}
         <form method="get" action="/get_defind_word">
             <div class="form-group col-md-4">
                 <input type="text" class="form-control" name="word" placeholder="Nhập từ cần tra định nghĩa: "

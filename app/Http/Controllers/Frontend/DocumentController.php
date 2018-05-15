@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Frontend\FrontendBaseController;
+use App\Repositories\Superadmin\CategoryDocRepository;
 use App\Repositories\Superadmin\FileRepository;
 use Illuminate\Http\Request;
 use Flash;
@@ -21,9 +22,9 @@ class DocumentController extends FrontendBaseController
      */
     private $fileRepository;
 
-    public function __construct(DocumentRepository $documentRepo, FileRepository $fileRepo)
+    public function __construct(DocumentRepository $documentRepo, FileRepository $fileRepo, CategoryDocRepository $cateDocRepo)
     {
-        parent::__construct($documentRepo);
+        parent::__construct($documentRepo, $cateDocRepo);
         $this->fileRepository = $fileRepo;
     }
 
@@ -34,12 +35,13 @@ class DocumentController extends FrontendBaseController
      */
     public function index(Request $request)
     {
+        $category_docs = $this->cateDocRepository->all();
+        $recent_posts = $this->fileRepository->getRecentPost();
         $searchCondition = [];
         $categoryId = (int)$request['danh-muc'];
         $documents = $this->getDocuments();
         $files = $this->fileRepository->orderBy('updated_at','desc')->search($searchCondition,$categoryId);
-//        dd($files);
-        return view('frontend.document.index',compact('documents','files'));
+        return view('frontend.document.index',compact('documents','files','category_docs','recent_posts'));
     }
 
     public function show($id)
@@ -51,7 +53,7 @@ class DocumentController extends FrontendBaseController
             return redirect(route('post'));
         }
 
-        return view('frontend.post.show')->with('document', $document);
+        return view('frontend.post.show',compact('document'));
     }
 
     /**

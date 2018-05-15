@@ -101,3 +101,33 @@
     {{--<a href="{!! route('superadmin.documentFiles.index') !!}"><i class="fa fa-edit"></i><span>Document Files</span></a>--}}
 {{--</li>--}}
 
+<li class="treeview {{ (Request::is('*labelTypes*')) ? 'active' : '' }}">
+    <a href="{!! route('superadmin.labelTypes.index') !!}">
+        <i class="fa fa-tag"></i> <span>@lang('messages.label_type_management')</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li class="{{ Request::is('*labelTypes/index*') ? 'active' : '' }}">
+            <a href="{!! route('superadmin.labelTypes.index') !!}"><i class="fa fa-list"></i><span>@lang('messages.label_type_list')</span></a>
+        </li>
+        <li class="{{ Request::is('*labelTypes/create*') ? 'active' : '' }}">
+            <a href="{!! route('superadmin.labelTypes.create') !!}"><i class="fa fa-plus"></i><span>@lang('messages.create')</span></a>
+        </li>
+    </ul>
+</li>
+
+<li class="treeview {{ (Request::is('*fileUsers*')) ? 'active' : '' }}">
+    <a href="{!! route('superadmin.fileUsers.index') !!}">
+        <i class="fa fa-edit"></i> <span>@lang('messages.file_users_management')</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li class="{{ Request::is('*fileUsers/index*') ? 'active' : '' }}">
+            <a href="{!! route('superadmin.fileUsers.index') !!}"><i class="fa fa-list"></i><span>@lang('messages.file_users_list')</span></a>
+        </li>
+    </ul>
+</li>

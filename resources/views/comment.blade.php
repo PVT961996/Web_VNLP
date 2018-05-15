@@ -77,6 +77,7 @@
         path = $("#path_text").val();
         FB.api(path, function (response) {
             posts = response.data;
+            console.log(posts);
         });
         window.setTimeout(function () {
             (function myLoop (i) {
@@ -120,6 +121,7 @@
 <div id="fb-root"></div>
 <div id="logout"></div>
 <div class="clearfix"></div>
+<br>
 <div class="col-md-6">
     <div class="col-md-4"><input class="form-control" type="text" id="path_text" value="qtv.fan/posts/"/></div>
     <div class="col-md-2"><input class="btn btn-primary" type="button" onclick="getPath()" value="Gửi"/></div>

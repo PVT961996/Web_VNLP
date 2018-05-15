@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Repositories\Superadmin\DocumentRepository;
+use App\Helpers\Helper;
 
 class FileController extends AppBaseController
 {
@@ -48,17 +49,12 @@ class FileController extends AppBaseController
                 array_push($searchCondition, ['content', 'LIKE', '%' . $search['content'] . '%']);
             }
             if (!empty($search['document_id']) && $search['document_id'] != 0) {
-                $temp = $this->fileRepository->search($searchCondition, $search['document_id']);
-                $files = $temp->orderBy('files.updated_at', 'desc')->paginate(16, ['files.*']);
+                $files = $this->fileRepository->search($searchCondition, $search['document_id']);
             } else {
-                $temp = $this->fileRepository->search($searchCondition);
-                $files = $temp->orderBy('files.updated_at', 'desc')->paginate(16, ['files.*']);
+                $files = $this->fileRepository->search($searchCondition);
             }
         } else {
             $files = $this->fileRepository->with('documents')->orderBy('updated_at', 'desc')->paginate(15);
-
-//        $files = $this->fileRepository->orderBy('updated_at', 'desc')->findByField('id', '<>', 0, ['*'], true, 10);
-
         }
         return view('superadmin.files.index', compact('files', 'documents'));
     }
@@ -94,7 +90,38 @@ class FileController extends AppBaseController
         $input['user_id'] = Auth::user()->id;
         $input["description"] = strip_tags($input["description"]);
         $input["content"] = strip_tags($input["content"]);
+        if($input['documents'] == 1){
+            $output_file = "";
+            if (!empty($request->file)) {
+                $file = time() . '.' . Helper::transText($request->file->getClientOriginalName(), '-');
+                $request->file->move(public_path('files'), $file);
+                $input['file'] = '/files/' . $file;
+                $output_file = 'output_' . time() . '.' . Helper::transText($request->file->getClientOriginalName(), '-');
+            }
+            exec('java -jar D:/2018/KHOALUAN/Web_VNLP/public/libs/vitk-tok-5.1.jar D:/2018/KHOALUAN/Web_VNLP/public/' . $input['file'] . ' D:/2018/KHOALUAN/Web_VNLP/public/files/' . $output_file);
 
+            $fp = @fopen('files/' . $output_file, "r");
+            if ($fp) {
+                if (filesize('files/' . $output_file) > 0) {
+                    $data = fread($fp, filesize('files/' . $output_file));
+
+                    $datas = explode(' ', $data);
+                    foreach ($datas as $key => $value) {
+                        $datas[$key] = preg_replace("/\/.*/", '', $value);
+                    }
+                    $input['content'] = "";
+                    foreach ($datas as $key => $value) {
+                        $input['content'] .= $value . " ";
+                    }
+                    fclose($fp);
+                }
+            } else {
+                echo "fail";
+            }
+        }
+
+//        exec('java -jar D:/2018/KHOALUAN/Web_VNLP/public/libs/vitk-cus.jar "Đội tuyển U23 Việt Nam vô địch." D:/2018/KHOALUAN/Web_VNLP/public/files/output2.txt', $output);
+//        print_r($output[0]);
         $file = $this->fileRepository->create($input);
 
         Flash::success(__('messages.created'));
@@ -112,13 +139,56 @@ class FileController extends AppBaseController
     public function show($id)
     {
         $file = $this->fileRepository->findWithoutFail($id);
+        $output = "";
 
+        if ($file->documents[0]->type == 3) {
+            $words = explode(' ', $file->content);
+            $att = "data-jstree='{".'"opened"'.":true,".'"icon"'.':"/img/none.png"'."}'";//trick
+            foreach ($words as $word){
+                if($word == "("){
+                    $output = $output."<ul><li ".$att.">";
+                }else if($word == ")") {
+                    $output = $output."</li></ul>";
+                }else{
+                    $output = $output." ".$word;
+                }
+            }
+        }
         if (empty($file)) {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.files.index'));
         }
 
-        return view('superadmin.files.show')->with('file', $file);
+        return view('superadmin.files.show', compact('file','output'));
+    }
+
+    private $rank = 0;
+
+    function buildTree($data, $index, $tree, $rank)
+    {
+        echo $index.' ';
+        if ($index < count($data)) {
+            if ($data[$index] == '(') {
+                $this->rank++;
+                $tree = array($data[$index + 1] => $this->buildTree($data, $index + 1, $tree, ''));
+                if($rank == 'add'){
+                    echo 'add';
+                    array_add($tree, $data[$index+1],$data[$index+2]);
+                    }
+            } elseif ($data[$index] == ')') {
+                $this->rank--;
+                if ($data[$index - 1] != ')') {
+                    $tree = array($data[$index - 2] => $data[$index - 1]);
+                    if ($data[$index + 1] == '(')
+                        $this->buildTree($data, $index + 1, $tree, 'add');
+//                    dd($tree);
+                } else
+                    $tree = $this->buildTree($data, $index + 1, $tree, '');
+            } else {
+                $tree = $this->buildTree($data, $index + 1, $tree, '');
+            }
+        }
+        return $tree;
     }
 
     /**
@@ -131,6 +201,7 @@ class FileController extends AppBaseController
     public function edit($id)
     {
         $file = $this->fileRepository->findWithoutFail($id);
+        $words = explode(' ', $file->content);
         $categories = $this->documentRepository->all();
         $selectedCategories = $this->documentFileRepository->findByField('file_id', '=', $id, ['document_id'], false)->toArray();
         $arr = [];
@@ -139,12 +210,28 @@ class FileController extends AppBaseController
         }
         $selectedCategories = $arr;
 
+        $output = "";
+
+        if ($file->documents[0]->type == 3) {
+            $words = explode(' ', $file->content);
+            $att = "data-jstree='{".'"opened"'.":true,".'"icon"'.':"/img/none.png"'."}'";//trick
+            foreach ($words as $word){
+                if($word == "("){
+                    $output = $output."<ul><li ".$att.">";
+                }else if($word == ")") {
+                    $output = $output."</li></ul>";
+                }else{
+                    $output = $output." ".$word;
+                }
+            }
+        }
+
         if (empty($file)) {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.files.index'));
         }
 
-        return view('superadmin.files.edit', compact('file', 'categories', 'selectedCategories'));
+        return view('superadmin.files.edit', compact('file', 'categories', 'selectedCategories', 'words','output'));
     }
 
     /**
@@ -165,6 +252,12 @@ class FileController extends AppBaseController
         }
         $request["description"] = strip_tags($request["description"]);
         $request["content"] = strip_tags($request["content"]);
+        if ($file->documents[0]->type == 3) {
+            $request["content"] = str_replace("("," ( ",$request["content"]);
+            $request["content"] = str_replace(")"," ) ",$request["content"]);
+            $request["content"] = preg_replace("/\s+/"," ",$request["content"]);
+            $request["content"] = trim($request["content"]);
+        }
         $file = $this->fileRepository->update($request->all(), $id);
         Flash::success(__('messages.updated'));
 
@@ -224,6 +317,20 @@ class FileController extends AppBaseController
             $this->fileRepository->delete($id);
 
             Flash::success(__('messages.deleted'));
+        }
+        return redirect(route('superadmin.files.index'));
+    }
+
+    public function evaluated(Request $request)
+    {
+        $input = $request->all();
+        if (is_null($input['evaluated'])) {
+            Flash::error(__('messages.not-found'));
+        } else {
+            $file = $this->fileRepository->findWithoutFail($input['id']);
+            $file->evaluated = $input['evaluated'];
+            $file->save();
+            Flash::success(__('messages.updated'));
         }
         return redirect(route('superadmin.files.index'));
     }

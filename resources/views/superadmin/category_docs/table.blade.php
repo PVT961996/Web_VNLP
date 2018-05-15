@@ -17,7 +17,7 @@
             <tr>
                 <td width="40px">{!! ($key+1).'.' !!}</td>
                 <td width="40px"><input type="checkbox" name="ids[]" value="{{ $categoryDoc->id }}" class="minimal checkSingle" form="items" /></td>
-                <td width="250px"><a href="{!! route('superadmin.categoryDocs.show', [$categoryDoc->id]) !!}">{!! $categoryDoc->name !!}</a></td>
+                <td width="250px"><a href="{!! route('superadmin.documents.index') !!}?search[category_id]={{ $categoryDoc->id }}">{!! $categoryDoc->name !!}</a></td>
                 <td>{!! Helper::subDescription($categoryDoc->description, route('superadmin.categoryDocs.show', [$categoryDoc->id])) !!} </td>
                 <td>{{ $categoryDoc->orderSort }}</td>
                 <td width="100px">

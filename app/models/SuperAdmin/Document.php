@@ -44,6 +44,7 @@ class Document extends Model
         'image',
         'file',
         'link_download',
+        'type',
         'source',
         'user_id'
     ];
@@ -63,6 +64,7 @@ class Document extends Model
         'image' => 'string',
         'file' => 'string',
         'link_download' => 'string',
+        'type' => 'integer',
         'source' => 'string',
         'user_id' => 'integer'
     ];

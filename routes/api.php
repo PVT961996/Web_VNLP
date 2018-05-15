@@ -86,10 +86,25 @@ Route::patch('superadmin/sentences/{sentences}', 'Superadmin\SentenceAPIControll
 Route::delete('superadmin/sentences{sentences}', 'Superadmin\SentenceAPIController@destroy');
 
 
-
 Route::get('superadmin/document_files', 'Superadmin\DocumentFileAPIController@index');
 Route::post('superadmin/document_files', 'Superadmin\DocumentFileAPIController@store');
 Route::get('superadmin/document_files/{document_files}', 'Superadmin\DocumentFileAPIController@show');
 Route::put('superadmin/document_files/{document_files}', 'Superadmin\DocumentFileAPIController@update');
 Route::patch('superadmin/document_files/{document_files}', 'Superadmin\DocumentFileAPIController@update');
 Route::delete('superadmin/document_files{document_files}', 'Superadmin\DocumentFileAPIController@destroy');
+
+
+Route::get('superadmin/label_types', 'Superadmin\LabelTypeAPIController@index');
+Route::post('superadmin/label_types', 'Superadmin\LabelTypeAPIController@store');
+Route::get('superadmin/label_types/{label_types}', 'Superadmin\LabelTypeAPIController@show');
+Route::put('superadmin/label_types/{label_types}', 'Superadmin\LabelTypeAPIController@update');
+Route::patch('superadmin/label_types/{label_types}', 'Superadmin\LabelTypeAPIController@update');
+Route::delete('superadmin/label_types{label_types}', 'Superadmin\LabelTypeAPIController@destroy');
+
+
+Route::get('superadmin/file_users', 'Superadmin\FileUserAPIController@index');
+Route::post('superadmin/file_users', 'Superadmin\FileUserAPIController@store');
+Route::get('superadmin/file_users/{file_users}', 'Superadmin\FileUserAPIController@show');
+Route::put('superadmin/file_users/{file_users}', 'Superadmin\FileUserAPIController@update');
+Route::patch('superadmin/file_users/{file_users}', 'Superadmin\FileUserAPIController@update');
+Route::delete('superadmin/file_users{file_users}', 'Superadmin\FileUserAPIController@destroy');

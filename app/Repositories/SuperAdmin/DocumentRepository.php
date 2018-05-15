@@ -51,9 +51,17 @@ class DocumentRepository extends BGBaseRepository
         return $documents;
     }
 
-    public function search($where)
+    public function search($condition, $categoryId = null)
     {
-        $this->applyConditions($where);
-        return $this->orderBy('updated_at', 'DESC')->paginate(10);
+        $this->applyConditions($condition);
+        if (!empty($categoryId)) {
+            $documents = $this->model->with('categories')->join('document_categories', function ($join) {
+                $join->on('documents.id', '=', 'document_categories.document_id');
+            })->where('document_categories.category_id', $categoryId)->whereNull('document_categories.deleted_at')->paginate(10, ['documents.*']);
+        } else {
+            $documents = $this->model->with('categories');
+        }
+        $this->resetModel();
+        return $documents;
     }
 }

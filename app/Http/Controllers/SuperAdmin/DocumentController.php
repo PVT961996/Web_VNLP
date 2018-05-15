@@ -47,6 +47,7 @@ class DocumentController extends AppBaseController
     public function index(Request $request)
     {
         $search = $request->search;
+        $categories = $request['danh-muc'];
         $searchCondition = [];
         if (!empty($search)) {
             if (!empty($search['name'])) {
@@ -55,9 +56,13 @@ class DocumentController extends AppBaseController
             if (!empty($search['source'])) {
                 array_push($searchCondition, ['source', 'LIKE', '%' . $search['source'] . '%']);
             }
-            $documents = $this->documentRepository->search($searchCondition);
+            if (!empty($search['category_id']) && $search['category_id'] != 0) {
+                $documents = $this->documentRepository->search($searchCondition, $search['category_id']);
+            } else {
+                $documents = $this->documentRepository->search($searchCondition);
+            }
         } else {
-            $documents = $this->documentRepository->orderBy('updated_at', 'DESC')->paginate(10);
+            $documents = $this->documentRepository->with('categories')->paginate(16);
         }
 
         return view('superadmin.documents.index')
@@ -87,10 +92,10 @@ class DocumentController extends AppBaseController
     public function store(CreateDocumentRequest $request)
     {
         $input = $request->all();
-//        if ($request->categories == null) {
-//            Flash::error(__('messages.document_flash_select_category'));
-//            return back()->withInput();
-//        }
+        if ($request->categories == null) {
+            Flash::error(__('messages.document_flash_select_category'));
+            return back()->withInput();
+        }
         $input["user_id"] = Auth::user()->id;
         $input["description"] = strip_tags($input["description"]);
         $input["short_description"] = strip_tags($input["short_description"]);
@@ -131,13 +136,19 @@ class DocumentController extends AppBaseController
     public function edit($id)
     {
         $document = $this->documentRepository->findWithoutFail($id);
-
+        $categories = $this->categoryDocRepository->buildTree(['id', 'name']);
+        $selectedCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['category_id'], false)->toArray();
+        $arr = [];
+        foreach ($selectedCategories as $selectedCategory) {
+            array_push($arr, $selectedCategory['category_id']);
+        }
+        $selectedCategories = $arr;
         if (empty($document)) {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.documents.index'));
         }
 
-        return view('superadmin.documents.edit')->with('document', $document);
+        return view('superadmin.documents.edit', compact('document', 'categories', 'selectedCategories'));
     }
 
     /**
@@ -150,8 +161,12 @@ class DocumentController extends AppBaseController
      */
     public function update($id, UpdateDocumentRequest $request)
     {
-        $document = $this->documentRepository->findWithoutFail($id);
+        if ($request->categories == null) {
+            Flash::error(__('messages.document_flash_select_category'));
+            return back()->withInput();
+        }
 
+        $document = $this->documentRepository->findWithoutFail($id);
         if (empty($document)) {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.documents.index'));
@@ -243,7 +258,7 @@ class DocumentController extends AppBaseController
                     echo "ok";
                     if (filesize('data/Cay_cu_phap/' . $file) > 0) {
                         $data = fread($fp, filesize('data/Cay_cu_phap/' . $file));
-                        $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                        $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'file' => '/data/Cay_cu_phap/'.$file, 'user_id' => Auth::user()->id]);
                         $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 5]);
                         fclose($fp);
                         $this->recursiveFile('data/Cay_cu_phap/' . $file, $file_db->id);
@@ -273,7 +288,7 @@ class DocumentController extends AppBaseController
                 echo "ok";
                 if (filesize('data/Gan_nhan_tu_loai/' . $file) > 0) {
                     $data = fread($fp, filesize('data/Gan_nhan_tu_loai/' . $file));
-                    $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                    $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'file' => '/data/Gan_nhan_tu_loai/'.$file, 'user_id' => Auth::user()->id]);
                     $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 1]);
                     $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 2]);
                     fclose($fp);
@@ -358,7 +373,7 @@ class DocumentController extends AppBaseController
             echo 'Mở file thành công';
             if (filesize($path) > 0) {
                 $data = fread($fp, filesize($path));
-                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'file' => '/data/Tach_tu/'.$file_name, 'user_id' => Auth::user()->id]);
                 $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 1]);
             }
         }
@@ -376,7 +391,7 @@ class DocumentController extends AppBaseController
             echo 'Mở file thành công';
             if (filesize($path) > 0) {
                 $data = fread($fp, filesize($path));
-                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'user_id' => Auth::user()->id]);
+                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'file' => '/data/Cay_cu_phap/'.$file_name, 'user_id' => Auth::user()->id]);
                 $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 4]);
             }
         }

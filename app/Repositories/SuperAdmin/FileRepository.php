@@ -45,7 +45,7 @@ class FileRepository extends BGBaseRepository
                 $join->on('files.id', '=', 'document_files.file_id');
             })->where('document_files.document_id', $categoryId)->whereNull('document_files.deleted_at')->paginate(10, ['files.*']);
         } else {
-            $files = $this->model->with('documents');
+            $files = $this->model->with('documents')->paginate(10);
         }
         $this->resetModel();
         return $files;
@@ -68,6 +68,12 @@ class FileRepository extends BGBaseRepository
 
         $this->resetModel();
         return $documents;
+    }
+
+    public function getRecentPost(){
+        $recentPost = $this->model->with('documents')->orderBy('updated_at', 'desc')->limit(10)->get();
+        $this->resetModel();
+        return $recentPost;
     }
 
     public function getAllFile() {

@@ -8,10 +8,27 @@
     <title>@lang('messages.title')</title>
     {{--<link href="css/bootstrap.css" rel="stylesheet" type="text/css">--}}
     {{--<link href="css/font-awesome.css" rel="stylesheet" type="text/css">--}}
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {{--<script src="https://use.fontawesome.com/07b0ce5d10.js"></script>--}}
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.2/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.2/css/skins/_all-skins.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/square/_all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/all.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/css/custorm.css">
+
+    @yield('css')
 
 </head>
 
@@ -35,8 +52,8 @@
                         {{--<li><a href="#">Page 1-3</a></li>--}}
                     {{--</ul>--}}
                 {{--</li>--}}
-                @foreach($documents as $document)
-                    <li><a href="{{ route('documents') }}?danh-muc={{ $document->id }}">{!! $document->name !!}</a></li>
+                @foreach($category_docs as $category_doc)
+                    <li><a href="{{ route('categoryDoc') }}?danh-muc={{ $category_doc->id }}">{!! $category_doc->name !!}</a></li>
                 @endforeach
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -79,174 +96,7 @@
 
             <!--           // RECENT POST===========-->
             <div class="col-lg-4">
-                <!--=====================
-                      CATEGORIES
-                 ======================-->
-                <div class="widget-sidebar">
-                    <h2 class="title-widget-sidebar">@lang('messages.frontend_corpus_categories')</h2>
-                    @foreach($documents as $document)
-                       <a href="{{ route('documents') }}?danh-muc={{ $document->id }} "> <button class="categories-btn">{{ $document->name }}</button></a>
-                    @endforeach
-                </div>
-
-                <div class="widget-sidebar">
-                    <h2 class="title-widget-sidebar">// RECENT POST</h2>
-                    <div class="content-widget-sidebar">
-                        <ul>
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-ndZJOGgvYQ4/WM1ZI8dH86I/AAAAAAAADeo/l67ZqZnRUO8QXIQi38bEXuxqHfVX0TV2gCJoC/w424-h318-n-rw/thumbnail8.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-                            <hr>
-
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-ojLI116-Mxk/WM1ZIwdnuwI/AAAAAAAADeo/4K6VpwIPSfgsmlXJB5o0N8scuI3iW4OpwCJoC/w424-h318-n-rw/thumbnail6.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-                            <hr>
-
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-TrK1csbtHRs/WM1ZI1SIUNI/AAAAAAAADeo/OkiUjuad6skWl9ugxbiIA_436OwsWKBNgCJoC/w424-h318-n-rw/thumbnail3.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-                            <hr>
-
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-UKfIhJSBW9M/WM1ZI8ou34I/AAAAAAAADeo/vlLGY29147AYLaxUW29ZXJlun115BhkhgCJoC/w424-h318-n-rw/thumbnail7.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-
-
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="widget-sidebar">
-                    <h2 class="title-widget-sidebar">// ARCHIVES</h2>
-                    <div class="last-post">
-                        <button class="accordion">21/4/2016</button>
-                        <div class="panel">
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-13DR8P0-AN4/WM1ZIz1lRNI/AAAAAAAADeo/XMfJ7CM-pQg9qfRuCgSnphzqhaj3SQg6QCJoC/w424-h318-n-rw/thumbnail4.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="last-post">
-                        <button class="accordion">5/7/2016</button>
-                        <div class="panel">
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-QlnwuVgbxus/WM1ZI1FKQiI/AAAAAAAADeo/nGSd1ExnnfIfIBF27xs8-EdBdfglqFPZgCJoC/w424-h318-n-rw/thumbnail2.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="last-post">
-                        <button class="accordion">15/9/2016</button>
-                        <div class="panel">
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-wRHL_FOH1AU/WM1ZIxQZ3DI/AAAAAAAADeo/lwJr8xndbW4MHI-lOB7CQ-14FJB5f5SWACJoC/w424-h318-n-rw/thumbnail5.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="last-post">
-                        <button class="accordion">2/3/2017</button>
-                        <div class="panel">
-                            <li class="recent-post">
-                                <div class="post-img">
-                                    <img src="https://lh3.googleusercontent.com/-QlnwuVgbxus/WM1ZI1FKQiI/AAAAAAAADeo/nGSd1ExnnfIfIBF27xs8-EdBdfglqFPZgCJoC/w424-h318-n-rw/thumbnail2.jpg"
-                                         class="img-responsive">
-                                </div>
-                                <a href="#"><h5>Excepteur sint occaecat cupi non proident laborum.</h5></a>
-                                <p>
-                                    <small><i class="fa fa-calendar" data-original-title="" title=""></i> 30 Juni 2014
-                                    </small>
-                                </p>
-                            </li>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!--=====================
-                      NEWSLATTER
-               ======================-->
-                <div class="widget-sidebar">
-                    <h2 class="title-widget-sidebar">// NEWSLATTER</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor ut .</p>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
-                        <input id="email" type="text" class="form-control" name="email" placeholder="Email">
-                    </div>
-                    <button type="button" class="btn btn-warning">Warning</button>
-                </div>
-
-
+                @include('shared/menu')
             </div>
         </div>
     </div>
@@ -256,15 +106,106 @@
 
 {{--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>--}}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- jQuery 3.1.1 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
 
-{{--<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>--}}
+<!-- AdminLTE App -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.2/js/adminlte.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.11/js/app.min.js"></script>
 
-{{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>--}}
+<!-- TinyMCE4 -->
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
-{{--<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>--}}
-{{--<script src="js/bootstrap.js"></script>--}}
+{{-- select2--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="/frontend/js/app.js"></script>
+
+@yield('scripts')
+
+<script>
+    var editor_config = {
+        path_absolute : "/",
+        selector: "textarea",
+        language: "vi_VN",
+        language_url : '/js/tinymce/langs/vi_VN.js',
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+        relative_urls: false,
+        file_browser_callback : function(field_name, url, type, win) {
+            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+
+            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+            if (type == 'image') {
+                cmsURL = cmsURL + "&type=Images";
+            } else {
+                cmsURL = cmsURL + "&type=Files";
+            }
+
+            tinyMCE.activeEditor.windowManager.open({
+                file : cmsURL,
+                title : 'Filemanager',
+                width : x * 0.8,
+                height : y * 0.8,
+                resizable : "yes",
+                close_previous : "no"
+            });
+        }
+    };
+
+    tinymce.init(editor_config);
+
+    $(document).ready(function() {
+        $('input').attr('autocomplete', 'off');
+
+        //iCheck for checkbox and radio inputs
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        });
+        //Red color scheme for iCheck
+        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+            checkboxClass: 'icheckbox_minimal-red',
+            radioClass: 'iradio_minimal-red'
+        });
+        //Flat red color scheme for iCheck
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+
+        var checkAll = $('input[type="checkbox"].checkAll');
+        var checkboxes = $('input[type="checkbox"].checkSingle');
+
+        checkAll.on('ifChecked ifUnchecked', function(event) {
+            if (event.type == 'ifChecked') {
+                checkboxes.iCheck('check');
+            } else {
+                checkboxes.iCheck('uncheck');
+            }
+        });
+
+        checkboxes.on('ifChanged', function(event){
+            console.log(checkboxes);
+
+            if(checkboxes.filter(':checked').length == checkboxes.length) {
+                checkAll.prop('checked', true);
+            } else {
+                checkAll.prop('checked', false);
+            }
+            checkAll.iCheck('update');
+        });
+    });
+</script>
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();

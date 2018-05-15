@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Superadmin;
 
+use App\Helpers\Helper;
 use App\Http\Requests\Superadmin\CreateSentenceRequest;
 use App\Http\Requests\Superadmin\UpdateSentenceRequest;
 use App\Repositories\Superadmin\FileRepository;
+use App\Repositories\Superadmin\LabelTypeRepository;
 use App\Repositories\Superadmin\SentenceRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -17,11 +19,13 @@ class SentenceController extends AppBaseController
     /** @var  SentenceRepository */
     private $sentenceRepository;
     private $fileRepository;
+    private $labelTypeRepository;
 
-    public function __construct(SentenceRepository $sentenceRepo, FileRepository $fileRepos)
+    public function __construct(SentenceRepository $sentenceRepo, FileRepository $fileRepos, LabelTypeRepository $labelTypeRepo)
     {
         $this->sentenceRepository = $sentenceRepo;
         $this->fileRepository = $fileRepos;
+        $this->labelTypeRepository = $labelTypeRepo;
     }
 
     /**
@@ -74,7 +78,7 @@ class SentenceController extends AppBaseController
     public function store(CreateSentenceRequest $request)
     {
         $input = $request->all();
-
+        $input["content"] = strip_tags($input["content"]);
         $sentence = $this->sentenceRepository->create($input);
 
         Flash::success(__('messages.created'));
@@ -111,6 +115,17 @@ class SentenceController extends AppBaseController
     public function edit($id)
     {
         $sentence = $this->sentenceRepository->findWithoutFail($id);
+        $words = explode(' ', $sentence->content);
+        $arrs = [];
+        if ($sentence->file->documents[0]->type == 1 && isset($sentence->file->documents[1]->type)) {
+            $label_types = $this->labelTypeRepository->findByField('type', 0);
+            foreach ($words as $word) {
+                $label = explode('/', $word);
+                array_push($arrs, $label[0], $label[1]);
+//                $arr[$label[0]] = $label[1];
+            }
+//            dd($arrs);
+        }
         $fileCorpus = $this->fileRepository->getAllFile();
         $selectedFile = $sentence->file_id;
 
@@ -119,7 +134,23 @@ class SentenceController extends AppBaseController
             return redirect(route('superadmin.sentences.index'));
         }
 
-        return view('superadmin.sentences.edit', compact('fileCorpus', 'sentence', 'selectedFile'));
+        return view('superadmin.sentences.edit', compact('fileCorpus', 'sentence', 'selectedFile', 'words', 'arrs', 'label_types'));
+    }
+
+    public function edit_high($id)
+    {
+        $sentence = $this->sentenceRepository->findWithoutFail($id);
+        $words = explode(' ', $sentence->content);
+
+        $fileCorpus = $this->fileRepository->getAllFile();
+        $selectedFile = $sentence->file_id;
+
+        if (empty($sentence)) {
+            Flash::error(__('messages.not-found'));
+            return redirect(route('superadmin.sentences.index'));
+        }
+
+        return view('superadmin.sentences.edit_high', compact('fileCorpus', 'sentence', 'selectedFile', 'words'));
     }
 
     /**
@@ -138,11 +169,56 @@ class SentenceController extends AppBaseController
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.sentences.index'));
         }
-
+        $request["content"] = strip_tags($request["content"]);
         $sentence = $this->sentenceRepository->update($request->all(), $id);
         Flash::success(__('messages.updated'));
         return redirect(route('superadmin.sentences.index'));
     }
+
+    public function update_high($id, UpdateSentenceRequest $request)
+    {
+        $input = $request->all();
+        $sentence = $this->sentenceRepository->findWithoutFail($id);
+        if (empty($sentence)) {
+            Flash::error(__('messages.not-found'));
+            return redirect(route('superadmin.sentences.index'));
+        }
+//        $request["content"] = strip_tags($request["content"]);
+        $fp = @fopen('files/demo.txt', "w");
+        // Kiểm tra file mở thành công không
+        if (!$fp) {
+            echo 'Mở file không thành công';
+        } else {
+            fwrite($fp, $input['content']);
+        }
+
+        exec('java -jar D:/2018/KHOALUAN/Web_VNLP/public/libs/vitk-tok-5.1.jar D:/2018/KHOALUAN/Web_VNLP/public/files/demo.txt D:/2018/KHOALUAN/Web_VNLP/public/files/output.txt');
+
+        $fp = @fopen('files/output.txt', "r");
+        if ($fp) {
+            if (filesize('files/output.txt') > 0) {
+                $data = fread($fp, filesize('files/output.txt'));
+
+                $datas = explode(' ', $data);
+                foreach ($datas as $key => $value) {
+                    $datas[$key] = preg_replace("/\/.*/", '', $value);
+                }
+                $input['content'] = "";
+                foreach ($datas as $key => $value) {
+                    $input['content'] .= $value . " ";
+                }
+                fclose($fp);
+            }
+        } else {
+            echo "fail";
+        }
+//        $sentence->content = $input['content'];
+//        $sentence->save();
+        $sentence = $this->sentenceRepository->update($input, $id);
+        Flash::success(__('messages.updated'));
+        return redirect(route('superadmin.sentences.edit_high', [$id]));
+    }
+
 
     /**
      * Remove the specified Sentence from storage.

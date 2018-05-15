@@ -33,7 +33,13 @@ class File extends Model
         'content',
         'description',
         'document_id',
-        'user_id'
+        'view',
+        'file',
+        'link_download',
+        'user_id',
+        'evaluated',
+        'point',
+        'status'
     ];
 
     /**
@@ -47,7 +53,13 @@ class File extends Model
         'content' => 'string',
         'description' => 'string',
         'document_id' => 'integer',
-        'user_id' => 'integer'
+        'user_id' => 'integer',
+        'view' => 'integer',
+        'file' => 'string',
+        'link_download' => 'string',
+        'evaluated' => 'integer',
+        'point' => 'float',
+        'status' => 'integer',
     ];
 
     /**
@@ -73,4 +85,8 @@ class File extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function fileUser()
+    {
+        return $this->belongsToMany(User::class, 'file_users', 'file_id', 'user_id');
+    }
 }

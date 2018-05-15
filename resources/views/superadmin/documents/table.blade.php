@@ -22,7 +22,7 @@
                 <td width="40px">{!! Helper::number_order($documents->currentPage(), $documents->perPage(), $key) !!}</td>
                 <td width="40px"><input type="checkbox" name="ids[]" value="{{ $document->id }}" class="minimal checkSingle"
                                form="items"/></td>
-                <td>{{$document->name}}</td>
+                <td><a href="{!! route('superadmin.files.index') !!}?search[document_id]={{ $document->id }}">{{$document->name}}</a></td>
                 {{--<td>{{str_limit($document->description, $limit = 150, $end = '...')}}</td>--}}
                 <td>{{str_limit($document->short_description, $limit = 150, $end = '...')}}</td>
                 <td>{{$document->file}}</td>

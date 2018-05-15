@@ -4,17 +4,19 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Superadmin\DocumentRepository;
+use App\Repositories\Superadmin\CategoryDocRepository;
 
 class FrontendBaseController extends Controller
 {
     protected $SEPARATOR_SPACE = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
     protected $documentRepository;
+    protected $cateDocRepository;
 
-    public function __construct(DocumentRepository $documentRepo)
+    public function __construct(DocumentRepository $documentRepo, CategoryDocRepository $cateDocRepo)
     {
         $this->documentRepository = $documentRepo;
-
+        $this->cateDocRepository = $cateDocRepo;
     }
 
     public function getDocuments(){
