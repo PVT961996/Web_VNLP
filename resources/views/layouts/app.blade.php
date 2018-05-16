@@ -293,12 +293,12 @@
     });
     function getChild(id) {
         node = $("#jstree_edit_div").jstree().get_node(id);
-        cld = node.children;
+        chid = node.children;
         console.log(node.text + ' c = ' + node.children);
         data = '';
-        if (cld.length > 0) {
+        if (chid.length > 0) {
             data = ' ( ' + node.text;
-            cld.forEach(function (value) {
+            chid.forEach(function (value) {
                 data += getChild(value);
             });
             data += ' ) ';

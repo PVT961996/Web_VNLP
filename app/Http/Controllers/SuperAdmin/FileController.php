@@ -328,7 +328,15 @@ class FileController extends AppBaseController
             Flash::error(__('messages.not-found'));
         } else {
             $file = $this->fileRepository->findWithoutFail($input['id']);
-            $file->evaluated = $input['evaluated'];
+            if($input['evaluated'] == 0){
+                $file->like += 1;
+            }
+            elseif ($input['evaluated'] == 1){
+                $file->dislike += 1;
+            }
+            elseif ($input['evaluated'] == 2){
+                $file->neutral += 1;
+            }
             $file->save();
             Flash::success(__('messages.updated'));
         }

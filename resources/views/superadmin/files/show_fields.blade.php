@@ -8,8 +8,8 @@
 
     @if($file->documents[0]->type == 3)
         {{--<tr>--}}
-            {{--<th style="width: 150px" scope="row">{!! Form::label('content', __('messages.file_content')) !!}</th>--}}
-            <div id='jstree_demo_div'>{!! $output !!}</div>
+        {{--<th style="width: 150px" scope="row">{!! Form::label('content', __('messages.file_content')) !!}</th>--}}
+        <div id='jstree_demo_div'>{!! $output !!}</div>
         {{--</tr>--}}
     @else
         <tr>
@@ -38,10 +38,27 @@
         <td><p>{!! $file->file !!}</p></td>
     </tr>
 
-    <tr>
-        <th style="width: 150px" scope="row">{!! Form::label('evaluated', __('messages.evaluated')) !!}</th>
-        <td><p>{!! Helper::convertEvaluated($file->evaluated) !!}</p></td>
-    </tr>
+    {{--<tr>--}}
+    {{--<th style="width: 150px" scope="row">{!! Form::label('evaluated', __('messages.evaluated')) !!}</th>--}}
+    {{--<td><p>{!! Helper::convertEvaluated($file->evaluated) !!}</p></td>--}}
+    {{--</tr>--}}
+
+    @if(isset($file) && $file->documents[0]->type == 5)
+        <tr>
+            <th style="width: 150px" scope="row">{!! Form::label('status', __('messages.like')) !!}</th>
+            <td><p>{!! $file->like !!} lượt</p></td>
+        </tr>
+
+        <tr>
+            <th style="width: 150px" scope="row">{!! Form::label('status', __('messages.dislike')) !!}</th>
+            <td><p>{!! $file->dislike !!} lượt</p></td>
+        </tr>
+
+        <tr>
+            <th style="width: 150px" scope="row">{!! Form::label('status', __('messages.neutral')) !!}</th>
+            <td><p>{!! $file->neutral !!} lượt</p></td>
+        </tr>
+    @endif
 
     <tr>
         <th style="width: 150px" scope="row">{!! Form::label('status', __('messages.status')) !!}</th>

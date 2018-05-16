@@ -37,9 +37,11 @@ class File extends Model
         'file',
         'link_download',
         'user_id',
-        'evaluated',
         'point',
-        'status'
+        'status',
+        'like',
+        'dislike',
+        'neutral'
     ];
 
     /**
@@ -57,7 +59,9 @@ class File extends Model
         'view' => 'integer',
         'file' => 'string',
         'link_download' => 'string',
-        'evaluated' => 'integer',
+        'like' => 'integer',
+        'dislike' => 'integer',
+        'neutral' => 'integer',
         'point' => 'float',
         'status' => 'integer',
     ];

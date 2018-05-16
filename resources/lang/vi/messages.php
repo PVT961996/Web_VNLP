@@ -229,6 +229,9 @@ return [
     'evaluated_0' => 'Thích',
     'evaluated_1' => 'Không thích',
     'evaluated_2' => 'Bình thường',
+    'like' => 'Thích',
+    'dislike' => 'Không thích',
+    'neutral' => 'Bình thường',
 
     //Sentences
     'sentences' => 'Câu',

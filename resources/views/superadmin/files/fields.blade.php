@@ -37,10 +37,10 @@
 </div>
 
 <!-- Evaluated Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('evaluated', __('messages.evaluated')) !!}
-    {!! Form::select('evaluated',[''=>__('messages.selected'),2 => Helper::convertEvaluated(2), 1=>Helper::convertEvaluated(1), 0=>Helper::convertEvaluated(0)] ,null, ['class' => 'form-control']) !!}
-</div>
+{{--<div class="form-group col-sm-6">--}}
+    {{--{!! Form::label('evaluated', __('messages.evaluated')) !!}--}}
+    {{--{!! Form::select('evaluated',[''=>__('messages.selected'),2 => Helper::convertEvaluated(2), 1=>Helper::convertEvaluated(1), 0=>Helper::convertEvaluated(0)] ,null, ['class' => 'form-control']) !!}--}}
+{{--</div>--}}
 
 <!-- Status Field -->
 <div class="form-group col-sm-6">
