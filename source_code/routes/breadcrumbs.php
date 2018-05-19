@@ -13,7 +13,7 @@ Breadcrumbs::register('home', function($breadcrumbs)
 
 Breadcrumbs::register('superadmin.dashboard.index', function($breadcrumbs)
 {
-    $breadcrumbs->parent('home');
+//    $breadcrumbs->parent('home');
     $breadcrumbs->push(__('messages.dashboard'), route('superadmin.dashboard.index'));
 });
 
@@ -136,6 +136,11 @@ Breadcrumbs::register('superadmin.files.show', function($breadcrumbs, $files)
 Breadcrumbs::register('superadmin.files.edit', function($breadcrumbs, $files) {
     $breadcrumbs->parent('superadmin.files.index');
     $breadcrumbs->push(__('messages.edit'), route('superadmin.files.edit', $files->id));
+});
+
+Breadcrumbs::register('superadmin.files.offer', function($breadcrumbs, $files) {
+    $breadcrumbs->parent('superadmin.files.index');
+    $breadcrumbs->push(__('messages.edit_offer'), route('superadmin.files.offer', $files->id));
 });
 # END File
 

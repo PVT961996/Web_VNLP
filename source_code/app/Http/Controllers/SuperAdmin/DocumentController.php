@@ -136,19 +136,23 @@ class DocumentController extends AppBaseController
     public function edit($id)
     {
         $document = $this->documentRepository->findWithoutFail($id);
-        $categories = $this->categoryDocRepository->buildTree(['id', 'name']);
-        $selectedCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['category_id'], false)->toArray();
-        $arr = [];
-        foreach ($selectedCategories as $selectedCategory) {
-            array_push($arr, $selectedCategory['category_id']);
-        }
-        $selectedCategories = $arr;
-        if (empty($document)) {
+        if (Auth::user()->id == $document->file->user->id) {
+            $categories = $this->categoryDocRepository->buildTree(['id', 'name']);
+            $selectedCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['category_id'], false)->toArray();
+            $arr = [];
+            foreach ($selectedCategories as $selectedCategory) {
+                array_push($arr, $selectedCategory['category_id']);
+            }
+            $selectedCategories = $arr;
+            if (empty($document)) {
+                Flash::error(__('messages.not-found'));
+                return redirect(route('superadmin.documents.index'));
+            }
+            return view('superadmin.documents.edit', compact('document', 'categories', 'selectedCategories'));
+        } else {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.documents.index'));
         }
-
-        return view('superadmin.documents.edit', compact('document', 'categories', 'selectedCategories'));
     }
 
     /**
@@ -167,18 +171,23 @@ class DocumentController extends AppBaseController
         }
 
         $document = $this->documentRepository->findWithoutFail($id);
-        if (empty($document)) {
+        if (Auth::user()->id == $document->user->id) {
+            if (empty($document)) {
+                Flash::error(__('messages.not-found'));
+                return redirect(route('superadmin.documents.index'));
+            }
+            $document["user_id"] = Auth::user()->id;
+            $request["description"] = strip_tags($request["description"]);
+            $request["short_description"] = strip_tags($request["short_description"]);
+            $this->documentRepository->update($request->all(), $id);
+
+            Flash::success(__('messages.updated'));
+
+            return redirect(route('superadmin.documents.index'));
+        } else {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.documents.index'));
         }
-        $document["user_id"] = Auth::user()->id;
-        $request["description"] = strip_tags($request["description"]);
-        $request["short_description"] = strip_tags($request["short_description"]);
-        $this->documentRepository->update($request->all(), $id);
-
-        Flash::success(__('messages.updated'));
-
-        return redirect(route('superadmin.documents.index'));
     }
 
     /**
@@ -190,57 +199,64 @@ class DocumentController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        if ($id == 'MULTI') {
-            if (empty($request->ids)) Flash::error(__('messages.not-found'));
-            else {
-                foreach ($request->ids as $id) {
-                    $documents = $this->documentRepository->findWithoutFail($id);
+        $document = $this->documentRepository->findWithoutFail($id);
+        if (Auth::user()->id == $document->user->id) {
+            if ($id == 'MULTI') {
+                if (empty($request->ids)) Flash::error(__('messages.not-found'));
+                else {
+                    foreach ($request->ids as $id) {
+                        $documents = $this->documentRepository->findWithoutFail($id);
 
-                    if (empty($documents)) {
-                        Flash::error(__('messages.not-found'));
+                        if (empty($documents)) {
+                            Flash::error(__('messages.not-found'));
 
-                        return redirect(route('superadmin.documents.index'));
+                            return redirect(route('superadmin.documents.index'));
+                        }
+                        if (!$documents->files->isEmpty()) {
+                            Flash::warning(__('messages.document_contain_file_error'));
+                            return back();
+                        }
+                        if (!$documents->offerPosts->isEmpty()) {
+                            Flash::warning(__('messages.document_contain_offer_post_error'));
+                            return back();
+                        }
+                        $documentCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['*'], false);
+                        foreach ($documentCategories as $documentCategory) {
+                            $this->docCategoryRepository->delete($documentCategory->id);
+                        }
+                        $this->documentRepository->delete($id);
                     }
-                    if (!$documents->files->isEmpty()) {
-                        Flash::warning(__('messages.document_contain_file_error'));
-                        return back();
-                    }
-                    if (!$documents->offerPosts->isEmpty()) {
-                        Flash::warning(__('messages.document_contain_offer_post_error'));
-                        return back();
-                    }
-                    $documentCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['*'], false);
-                    foreach ($documentCategories as $documentCategory) {
-                        $this->docCategoryRepository->delete($documentCategory->id);
-                    }
-                    $this->documentRepository->delete($id);
+
+                    Flash::success(__('messages.deleted'));
                 }
+            } else {
+                $document = $this->documentRepository->findWithoutFail($id);
+
+                if (empty($document)) {
+                    Flash::error('messages.no-items');
+
+                    return redirect(route('superadmin.documents.index'));
+                } elseif (!$document->files->isEmpty()) {
+                    Flash::warning(__('messages.document_contain_file_error'));
+                    return back();
+                } elseif (!$document->offerPosts->isEmpty()) {
+                    Flash::warning(__('messages.document_contain_offer_post_error'));
+                    return back();
+                }
+                $documentCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['*'], false);
+                foreach ($documentCategories as $documentCategory) {
+                    $this->docCategoryRepository->delete($documentCategory->id);
+                }
+                $this->documentRepository->delete($id);
 
                 Flash::success(__('messages.deleted'));
             }
-        } else {
-            $document = $this->documentRepository->findWithoutFail($id);
-
-            if (empty($document)) {
-                Flash::error('messages.no-items');
-
-                return redirect(route('superadmin.documents.index'));
-            } elseif (!$document->files->isEmpty()) {
-                Flash::warning(__('messages.document_contain_file_error'));
-                return back();
-            } elseif (!$document->offerPosts->isEmpty()) {
-                Flash::warning(__('messages.document_contain_offer_post_error'));
-                return back();
-            }
-            $documentCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['*'], false);
-            foreach ($documentCategories as $documentCategory) {
-                $this->docCategoryRepository->delete($documentCategory->id);
-            }
-            $this->documentRepository->delete($id);
-
-            Flash::success(__('messages.deleted'));
+            return redirect(route('superadmin.documents.index'));
         }
-        return redirect(route('superadmin.documents.index'));
+        else {
+            Flash::error(__('messages.not-found'));
+            return redirect(route('superadmin.documents.index'));
+        }
     }
 
     public function readFileGrammar()
@@ -258,7 +274,7 @@ class DocumentController extends AppBaseController
                     echo "ok";
                     if (filesize('data/Cay_cu_phap/' . $file) > 0) {
                         $data = fread($fp, filesize('data/Cay_cu_phap/' . $file));
-                        $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'file' => '/data/Cay_cu_phap/'.$file, 'user_id' => Auth::user()->id]);
+                        $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'file' => '/data/Cay_cu_phap/' . $file, 'user_id' => Auth::user()->id]);
                         $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 5]);
                         fclose($fp);
                         $this->recursiveFile('data/Cay_cu_phap/' . $file, $file_db->id);
@@ -288,7 +304,7 @@ class DocumentController extends AppBaseController
                 echo "ok";
                 if (filesize('data/Gan_nhan_tu_loai/' . $file) > 0) {
                     $data = fread($fp, filesize('data/Gan_nhan_tu_loai/' . $file));
-                    $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'file' => '/data/Gan_nhan_tu_loai/'.$file, 'user_id' => Auth::user()->id]);
+                    $file_db = $this->fileRepository->create(['name' => $file, 'summary' => $file, 'content' => $data, 'description' => $data, 'file' => '/data/Gan_nhan_tu_loai/' . $file, 'user_id' => Auth::user()->id]);
                     $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 1]);
                     $this->docFileRepository->create(['file_id' => $file_db->id, 'document_id' => 2]);
                     fclose($fp);
@@ -373,7 +389,7 @@ class DocumentController extends AppBaseController
             echo 'Mở file thành công';
             if (filesize($path) > 0) {
                 $data = fread($fp, filesize($path));
-                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'file' => '/data/Tach_tu/'.$file_name, 'user_id' => Auth::user()->id]);
+                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'file' => '/data/Tach_tu/' . $file_name, 'user_id' => Auth::user()->id]);
                 $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 1]);
             }
         }
@@ -391,7 +407,7 @@ class DocumentController extends AppBaseController
             echo 'Mở file thành công';
             if (filesize($path) > 0) {
                 $data = fread($fp, filesize($path));
-                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'file' => '/data/Cay_cu_phap/'.$file_name, 'user_id' => Auth::user()->id]);
+                $file = $this->fileRepository->create(['name' => $file_name, 'summary' => $file_name, 'content' => $data, 'description' => $data, 'file' => '/data/Cay_cu_phap/' . $file_name, 'user_id' => Auth::user()->id]);
                 $this->docFileRepository->create(['file_id' => $file->id, 'document_id' => 4]);
             }
         }

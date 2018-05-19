@@ -60,7 +60,7 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="/uploads/PhungVanThanh_2.jpg"
+                                <img src="/uploads/default-avatar.png"
                                      class="user-image" alt="User Image"/>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">{!! Auth::user()->name !!}</span>
@@ -68,7 +68,7 @@
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="/uploads/PhungVanThanh_2.jpg"
+                                    <img src="/uploads/default-avatar.png"
                                          class="img-circle" alt="User Image"/>
                                     <p>
                                         {!! Auth::user()->name !!}
@@ -267,9 +267,10 @@
         })).each(function (index, value) {
             var node = $("#jstree_edit_div").jstree().get_node(this.id);
             if (node.parents.length == 1) {
-                $('#contentText').val(getChild(node.id));
+                data += getChild(node.id);
             }
         });
+        $('#contentText').val(data);
     }
     $(function () {
         $('#jstree_demo_div').jstree({
@@ -297,7 +298,7 @@
         console.log(node.text + ' c = ' + node.children);
         data = '';
         if (chid.length > 0) {
-            data = ' ( ' + node.text;
+            data = '( ' + node.text;
             chid.forEach(function (value) {
                 data += getChild(value);
             });

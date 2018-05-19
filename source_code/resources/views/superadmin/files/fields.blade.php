@@ -14,6 +14,7 @@
 @if(isset($file) && $file->documents[0]->type == 3)
     <div class="form-group col-sm-12 col-lg-12">
         <div id='jstree_edit_div'>{!! $output !!}</div>
+        {!! Form::label('content', __('messages.file_content')) !!}
         <input type="text" name="content" id="contentText" class="form-control"
                value="{{ isset($file->content)? $file->content : "" }}">
     </div>

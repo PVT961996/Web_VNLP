@@ -7,6 +7,7 @@ use App\Http\Requests\Superadmin\UpdateFileRequest;
 use App\Repositories\Superadmin\DocumentFileRepository;
 use App\Repositories\Superadmin\FileRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Repositories\Superadmin\OfferPostRepository;
 use App\Repositories\Superadmin\SentenceRepository;
 use Illuminate\Http\Request;
 use Flash;
@@ -23,13 +24,15 @@ class FileController extends AppBaseController
     private $documentRepository;
     private $sentenceRepository;
     private $documentFileRepository;
+    private $offerPostRepository;
 
-    public function __construct(FileRepository $fileRepo, DocumentRepository $docRepo, SentenceRepository $sentenceRepo, DocumentFileRepository $documentFileRepo)
+    public function __construct(FileRepository $fileRepo, DocumentRepository $docRepo, SentenceRepository $sentenceRepo, DocumentFileRepository $documentFileRepo, OfferPostRepository $offerPostRepo)
     {
         $this->fileRepository = $fileRepo;
         $this->documentRepository = $docRepo;
         $this->sentenceRepository = $sentenceRepo;
         $this->documentFileRepository = $documentFileRepo;
+        $this->offerPostRepository = $offerPostRepo;
     }
 
     /**
@@ -90,7 +93,7 @@ class FileController extends AppBaseController
         $input['user_id'] = Auth::user()->id;
         $input["description"] = strip_tags($input["description"]);
         $input["content"] = strip_tags($input["content"]);
-        if($input['documents'] == 1){
+        if ($input['documents'] == 1) {
             $output_file = "";
             if (!empty($request->file)) {
                 $file = time() . '.' . Helper::transText($request->file->getClientOriginalName(), '-');
@@ -143,14 +146,14 @@ class FileController extends AppBaseController
 
         if ($file->documents[0]->type == 3) {
             $words = explode(' ', $file->content);
-            $att = "data-jstree='{".'"opened"'.":true,".'"icon"'.':"/img/none.png"'."}'";//trick
-            foreach ($words as $word){
-                if($word == "("){
-                    $output = $output."<ul><li ".$att.">";
-                }else if($word == ")") {
-                    $output = $output."</li></ul>";
-                }else{
-                    $output = $output." ".$word;
+            $att = "data-jstree='{" . '"opened"' . ":true," . '"icon"' . ':"/img/none.png"' . "}'";//trick
+            foreach ($words as $word) {
+                if ($word == "(") {
+                    $output = $output . "<ul><li " . $att . ">";
+                } else if ($word == ")") {
+                    $output = $output . "</li></ul>";
+                } else {
+                    $output = $output . " " . $word;
                 }
             }
         }
@@ -159,22 +162,22 @@ class FileController extends AppBaseController
             return redirect(route('superadmin.files.index'));
         }
 
-        return view('superadmin.files.show', compact('file','output'));
+        return view('superadmin.files.show', compact('file', 'output'));
     }
 
     private $rank = 0;
 
     function buildTree($data, $index, $tree, $rank)
     {
-        echo $index.' ';
+        echo $index . ' ';
         if ($index < count($data)) {
             if ($data[$index] == '(') {
                 $this->rank++;
                 $tree = array($data[$index + 1] => $this->buildTree($data, $index + 1, $tree, ''));
-                if($rank == 'add'){
+                if ($rank == 'add') {
                     echo 'add';
-                    array_add($tree, $data[$index+1],$data[$index+2]);
-                    }
+                    array_add($tree, $data[$index + 1], $data[$index + 2]);
+                }
             } elseif ($data[$index] == ')') {
                 $this->rank--;
                 if ($data[$index - 1] != ')') {
@@ -201,37 +204,41 @@ class FileController extends AppBaseController
     public function edit($id)
     {
         $file = $this->fileRepository->findWithoutFail($id);
-        $words = explode(' ', $file->content);
-        $categories = $this->documentRepository->all();
-        $selectedCategories = $this->documentFileRepository->findByField('file_id', '=', $id, ['document_id'], false)->toArray();
-        $arr = [];
-        foreach ($selectedCategories as $selectedCategory) {
-            array_push($arr, $selectedCategory['document_id']);
-        }
-        $selectedCategories = $arr;
-
-        $output = "";
-
-        if ($file->documents[0]->type == 3) {
+        if (Auth::user()->id == $file->user->id) {
             $words = explode(' ', $file->content);
-            $att = "data-jstree='{".'"opened"'.":true,".'"icon"'.':"/img/none.png"'."}'";//trick
-            foreach ($words as $word){
-                if($word == "("){
-                    $output = $output."<ul><li ".$att.">";
-                }else if($word == ")") {
-                    $output = $output."</li></ul>";
-                }else{
-                    $output = $output." ".$word;
+            $categories = $this->documentRepository->all();
+            $selectedCategories = $this->documentFileRepository->findByField('file_id', '=', $id, ['document_id'], false)->toArray();
+            $arr = [];
+            foreach ($selectedCategories as $selectedCategory) {
+                array_push($arr, $selectedCategory['document_id']);
+            }
+            $selectedCategories = $arr;
+
+            $output = "";
+
+            if ($file->documents[0]->type == 3) {
+                $words = explode(' ', $file->content);
+                $att = "data-jstree='{" . '"opened"' . ":true," . '"icon"' . ':"/img/none.png"' . "}'";//trick
+                foreach ($words as $word) {
+                    if ($word == "(") {
+                        $output = $output . "<ul><li " . $att . ">";
+                    } else if ($word == ")") {
+                        $output = $output . "</li></ul>";
+                    } else {
+                        $output = $output . " " . $word;
+                    }
                 }
             }
-        }
 
-        if (empty($file)) {
+            if (empty($file)) {
+                Flash::error(__('messages.not-found'));
+                return redirect(route('superadmin.files.index'));
+            }
+            return view('superadmin.files.edit', compact('file', 'categories', 'selectedCategories', 'words', 'output'));
+        } else {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.files.index'));
         }
-
-        return view('superadmin.files.edit', compact('file', 'categories', 'selectedCategories', 'words','output'));
     }
 
     /**
@@ -245,25 +252,39 @@ class FileController extends AppBaseController
     public function update($id, UpdateFileRequest $request)
     {
         $file = $this->fileRepository->findWithoutFail($id);
+        if (Auth::user()->id == $file->user->id) {
+            if (empty($file)) {
+                Flash::error(__('messages.not-found'));
+                return redirect(route('superadmin.files.index'));
+            }
+            $request["description"] = strip_tags($request["description"]);
+            $request["content"] = strip_tags($request["content"]);
+            if ($file->documents[0]->type == 3) {
+                $request["content"] = str_replace("(", " ( ", $request["content"]);
+                $request["content"] = str_replace(")", " ) ", $request["content"]);
+                $request["content"] = preg_replace("/\s+/", " ", $request["content"]);
+                $request["content"] = trim($request["content"]);
+            }
+            $file = $this->fileRepository->update($request->all(), $id);
+            Flash::success(__('messages.updated'));
 
-        if (empty($file)) {
+            return redirect(route('superadmin.files.index'));
+        } else {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.files.index'));
         }
-        $request["description"] = strip_tags($request["description"]);
-        $request["content"] = strip_tags($request["content"]);
-        if ($file->documents[0]->type == 3) {
-            $request["content"] = str_replace("("," ( ",$request["content"]);
-            $request["content"] = str_replace(")"," ) ",$request["content"]);
-            $request["content"] = preg_replace("/\s+/"," ",$request["content"]);
-            $request["content"] = trim($request["content"]);
-        }
-        $file = $this->fileRepository->update($request->all(), $id);
-        Flash::success(__('messages.updated'));
-
-        return redirect(route('superadmin.files.index'));
     }
 
+    public function offer($id){
+        $file = $this->fileRepository->findWithoutFail($id);
+        return view('superadmin.files.offer',compact('file'));
+    }
+    public function edit_offer(Request $request)
+    {
+        $input = $request->all();
+        $this->offerPostRepository->create(['content' => $input['content'], 'status' => 0, 'file_id' => $input['id']]);
+        return redirect(route('superadmin.files.index'));
+    }
     /**
      * Remove the specified File from storage.
      *
@@ -273,52 +294,58 @@ class FileController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        if ($id == 'MULTI') {
-            if (empty($request->ids)) Flash::error(__('messages.not-found'));
-            else {
-                foreach ($request->ids as $id) {
-                    $files = $this->fileRepository->findWithoutFail($id);
+        $file = $this->fileRepository->findWithoutFail($id);
+        if (Auth::user()->id == $file->user->id) {
+            if ($id == 'MULTI') {
+                if (empty($request->ids)) Flash::error(__('messages.not-found'));
+                else {
+                    foreach ($request->ids as $id) {
+                        $files = $this->fileRepository->findWithoutFail($id);
 
-                    if (empty($files)) {
-                        Flash::error(__('messages.not-found'));
+                        if (empty($files)) {
+                            Flash::error(__('messages.not-found'));
 
-                        return redirect(route('superadmin.files.index'));
+                            return redirect(route('superadmin.files.index'));
+                        }
+                        $sentences = $this->sentenceRepository->findByField('file_id', '=', [$id], ['*'], true, 10);
+                        foreach ($sentences as $sentence) {
+                            $this->sentenceRepository->delete($sentence->id);
+                        }
+                        $document_files = $this->documentFileRepository->findByField('file_id', '=', [$id], ['*']);
+                        foreach ($document_files as $document_file) {
+                            $this->documentFileRepository->delete($document_file->id);
+                        }
+                        $this->fileRepository->delete($id);
                     }
-                    $sentences = $this->sentenceRepository->findByField('file_id', '=', [$id], ['*'], true, 10);
-                    foreach ($sentences as $sentence) {
-                        $this->sentenceRepository->delete($sentence->id);
-                    }
-                    $document_files = $this->documentFileRepository->findByField('file_id', '=', [$id], ['*']);
-                    foreach ($document_files as $document_file) {
-                        $this->documentFileRepository->delete($document_file->id);
-                    }
-                    $this->fileRepository->delete($id);
+
+                    Flash::success(__('messages.deleted'));
                 }
+            } else {
+                $file = $this->fileRepository->findWithoutFail($id);
+
+                if (empty($file)) {
+                    Flash::error('messages.no-items');
+
+                    return redirect(route('superadmin.files.index'));
+                }
+                $sentences = $this->sentenceRepository->findByField('file_id', '=', [$id], ['*'], true, 10);
+                foreach ($sentences as $sentence) {
+                    $this->sentenceRepository->delete($sentence->id);
+                }
+
+                $document_files = $this->documentFileRepository->findByField('file_id', '=', [$id], ['*']);
+                foreach ($document_files as $document_file) {
+                    $this->documentFileRepository->delete($document_file->id);
+                }
+                $this->fileRepository->delete($id);
 
                 Flash::success(__('messages.deleted'));
             }
+            return redirect(route('superadmin.files.index'));
         } else {
-            $file = $this->fileRepository->findWithoutFail($id);
-
-            if (empty($file)) {
-                Flash::error('messages.no-items');
-
-                return redirect(route('superadmin.files.index'));
-            }
-            $sentences = $this->sentenceRepository->findByField('file_id', '=', [$id], ['*'], true, 10);
-            foreach ($sentences as $sentence) {
-                $this->sentenceRepository->delete($sentence->id);
-            }
-
-            $document_files = $this->documentFileRepository->findByField('file_id', '=', [$id], ['*']);
-            foreach ($document_files as $document_file) {
-                $this->documentFileRepository->delete($document_file->id);
-            }
-            $this->fileRepository->delete($id);
-
-            Flash::success(__('messages.deleted'));
+            Flash::error(__('messages.not-found'));
+            return redirect(route('superadmin.files.index'));
         }
-        return redirect(route('superadmin.files.index'));
     }
 
     public function evaluated(Request $request)
@@ -328,13 +355,11 @@ class FileController extends AppBaseController
             Flash::error(__('messages.not-found'));
         } else {
             $file = $this->fileRepository->findWithoutFail($input['id']);
-            if($input['evaluated'] == 0){
+            if ($input['evaluated'] == 0) {
                 $file->like += 1;
-            }
-            elseif ($input['evaluated'] == 1){
+            } elseif ($input['evaluated'] == 1) {
                 $file->dislike += 1;
-            }
-            elseif ($input['evaluated'] == 2){
+            } elseif ($input['evaluated'] == 2) {
                 $file->neutral += 1;
             }
             $file->save();

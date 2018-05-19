@@ -1,7 +1,7 @@
 <!-- Short Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('short_description', __('messages.offer_post_description')) !!}
-    {!! Form::textarea('short_description', null, ['class' => 'form-control']) !!}
+    {!! Form::label('content', __('messages.offer_post_content')) !!}
+    {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Description Field -->
@@ -43,8 +43,8 @@
 
 <!-- Post Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('post_id', 'Tên bài viết: ') !!}
-    {!! Form::select('post_id', $documents, isset($selectedDocument) ? $selectedDocument : null, ['class' => 'form-control']) !!}
+    {!! Form::label('file_id', 'Tên bài viết: ') !!}
+    {!! Form::select('file_id', [''=>__('messages.selected'),$offerPost->file->id =>$offerPost->file->name], null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group col-sm-6">

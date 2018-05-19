@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Illuminate\Support\Facades\Auth;
 
 class SentenceController extends AppBaseController
 {
@@ -102,7 +103,23 @@ class SentenceController extends AppBaseController
             return redirect(route('superadmin.sentences.index'));
         }
 
-        return view('superadmin.sentences.show')->with('sentence', $sentence);
+        $output = "";
+
+        if ($sentence->file->documents[0]->type == 3) {
+            $words = explode(' ', $sentence->content);
+            $att = "data-jstree='{" . '"opened"' . ":true," . '"icon"' . ':"/img/none.png"' . "}'";//trick
+            foreach ($words as $word) {
+                if ($word == "(") {
+                    $output = $output . "<ul><li " . $att . ">";
+                } else if ($word == ")") {
+                    $output = $output . "</li></ul>";
+                } else {
+                    $output = $output . " " . $word;
+                }
+            }
+        }
+
+        return view('superadmin.sentences.show', compact('sentence','output'));
     }
 
     /**
@@ -115,26 +132,46 @@ class SentenceController extends AppBaseController
     public function edit($id)
     {
         $sentence = $this->sentenceRepository->findWithoutFail($id);
-        $words = explode(' ', $sentence->content);
-        $arrs = [];
-        if ($sentence->file->documents[0]->type == 1 && isset($sentence->file->documents[1]->type)) {
-            $label_types = $this->labelTypeRepository->findByField('type', 0);
-            foreach ($words as $word) {
-                $label = explode('/', $word);
-                array_push($arrs, $label[0], $label[1]);
+        if (Auth::user()->id == $sentence->file->user->id) {
+            $words = explode(' ', $sentence->content);
+            $arrs = [];
+            if ($sentence->file->documents[0]->type == 1 && isset($sentence->file->documents[1]->type)) {
+                $label_types = $this->labelTypeRepository->findByField('type', 0);
+                foreach ($words as $word) {
+                    $label = explode('/', $word);
+                    array_push($arrs, $label[0], $label[1]);
 //                $arr[$label[0]] = $label[1];
-            }
+                }
 //            dd($arrs);
-        }
-        $fileCorpus = $this->fileRepository->getAllFile();
-        $selectedFile = $sentence->file_id;
+            }
+            $output = "";
 
-        if (empty($sentence)) {
+            if ($sentence->file->documents[0]->type == 3) {
+                $words = explode(' ', $sentence->content);
+                $att = "data-jstree='{" . '"opened"' . ":true," . '"icon"' . ':"/img/none.png"' . "}'";//trick
+                foreach ($words as $word) {
+                    if ($word == "(") {
+                        $output = $output . "<ul><li " . $att . ">";
+                    } else if ($word == ")") {
+                        $output = $output . "</li></ul>";
+                    } else {
+                        $output = $output . " " . $word;
+                    }
+                }
+            }
+            $fileCorpus = $this->fileRepository->getAllFile();
+            $selectedFile = $sentence->file_id;
+
+            if (empty($sentence)) {
+                Flash::error(__('messages.not-found'));
+                return redirect(route('superadmin.sentences.index'));
+            }
+
+            return view('superadmin.sentences.edit', compact('fileCorpus', 'sentence', 'selectedFile', 'words', 'arrs', 'label_types','output'));
+        } else {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.sentences.index'));
         }
-
-        return view('superadmin.sentences.edit', compact('fileCorpus', 'sentence', 'selectedFile', 'words', 'arrs', 'label_types'));
     }
 
     public function edit_high($id)
@@ -164,15 +201,25 @@ class SentenceController extends AppBaseController
     public function update($id, UpdateSentenceRequest $request)
     {
         $sentence = $this->sentenceRepository->findWithoutFail($id);
-
-        if (empty($sentence)) {
+        if (Auth::user()->id == $sentence->file->user->id) {
+            if (empty($sentence)) {
+                Flash::error(__('messages.not-found'));
+                return redirect(route('superadmin.sentences.index'));
+            }
+            $request["content"] = strip_tags($request["content"]);
+            if ($sentence->file->documents[0]->type == 3) {
+                $request["content"] = str_replace("(", " ( ", $request["content"]);
+                $request["content"] = str_replace(")", " ) ", $request["content"]);
+                $request["content"] = preg_replace("/\s+/", " ", $request["content"]);
+                $request["content"] = trim($request["content"]);
+            }
+            $sentence = $this->sentenceRepository->update($request->all(), $id);
+            Flash::success(__('messages.updated'));
+            return redirect(route('superadmin.sentences.index'));
+        } else {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.sentences.index'));
         }
-        $request["content"] = strip_tags($request["content"]);
-        $sentence = $this->sentenceRepository->update($request->all(), $id);
-        Flash::success(__('messages.updated'));
-        return redirect(route('superadmin.sentences.index'));
     }
 
     public function update_high($id, UpdateSentenceRequest $request)
@@ -191,30 +238,30 @@ class SentenceController extends AppBaseController
         } else {
             fwrite($fp, $input['content']);
         }
-
-        exec('java -jar D:/2018/KHOALUAN/Web_VNLP/public/libs/vitk-tok-5.1.jar D:/2018/KHOALUAN/Web_VNLP/public/files/demo.txt D:/2018/KHOALUAN/Web_VNLP/public/files/output.txt');
-
-        $fp = @fopen('files/output.txt', "r");
-        if ($fp) {
-            if (filesize('files/output.txt') > 0) {
-                $data = fread($fp, filesize('files/output.txt'));
-
-                $datas = explode(' ', $data);
-                foreach ($datas as $key => $value) {
-                    $datas[$key] = preg_replace("/\/.*/", '', $value);
-                }
-                $input['content'] = "";
-                foreach ($datas as $key => $value) {
-                    $input['content'] .= $value . " ";
-                }
-                fclose($fp);
-            }
-        } else {
-            echo "fail";
-        }
-//        $sentence->content = $input['content'];
-//        $sentence->save();
-        $sentence = $this->sentenceRepository->update($input, $id);
+        exec('javac D:/SetUp/eclipse/workspace/PhuongLHClient/src/MyClient.java');
+        exec('java -cp D:/SetUp/eclipse/workspace/PhuongLHClient/src MyClient "D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/demo.txt"',$output);
+//        exec('java -jar D:/2018/KHOALUAN/Web_VNLP/source_code/public/libs/vitk-tok-5.1.jar D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/demo.txt D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/output.txt');
+//        $fp = @fopen('files/output.txt', "r");
+//        if ($fp) {
+//            if (filesize('files/output.txt') > 0) {
+//                $data = fread($fp, filesize('files/output.txt'));
+//
+//                $datas = explode(' ', $data);
+//                foreach ($datas as $key => $value) {
+//                    $datas[$key] = preg_replace("/\/.*/", '', $value);
+//                }
+//                $input['content'] = "";
+//                foreach ($datas as $key => $value) {
+//                    $input['content'] .= $value . " ";
+//                }
+//                fclose($fp);
+//            }
+//        } else {
+//            echo "fail";
+//        }
+        $sentence->content = $output[0];
+        $sentence->save();
+//        $sentence = $this->sentenceRepository->update($input, $id);
         Flash::success(__('messages.updated'));
         return redirect(route('superadmin.sentences.edit_high', [$id]));
     }
@@ -229,34 +276,40 @@ class SentenceController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        if ($id == 'MULTI') {
-            if (empty($request->ids)) Flash::error(__('messages.not-found'));
-            else {
-                foreach ($request->ids as $id) {
-                    $sentences = $this->sentenceRepository->findWithoutFail($id);
+        $sentence = $this->sentenceRepository->findWithoutFail($id);
+        if (Auth::user()->id == $sentence->file->user->id) {
+            if ($id == 'MULTI') {
+                if (empty($request->ids)) Flash::error(__('messages.not-found'));
+                else {
+                    foreach ($request->ids as $id) {
+                        $sentences = $this->sentenceRepository->findWithoutFail($id);
 
-                    if (empty($files)) {
-                        Flash::error(__('messages.not-found'));
+                        if (empty($files)) {
+                            Flash::error(__('messages.not-found'));
 
-                        return redirect(route('superadmin.files.index'));
+                            return redirect(route('superadmin.files.index'));
+                        }
+                        $this->sentenceRepository->delete($id);
                     }
-                    $this->sentenceRepository->delete($id);
+
+                    Flash::success(__('messages.deleted'));
                 }
+            } else {
+                $sentence = $this->sentenceRepository->findWithoutFail($id);
+
+                if (empty($file)) {
+                    Flash::error('messages.no-items');
+
+                    return redirect(route('superadmin.files.index'));
+                }
+                $this->sentenceRepository->delete($id);
 
                 Flash::success(__('messages.deleted'));
             }
+            return redirect(route('superadmin.sentences.index'));
         } else {
-            $sentence = $this->sentenceRepository->findWithoutFail($id);
-
-            if (empty($file)) {
-                Flash::error('messages.no-items');
-
-                return redirect(route('superadmin.files.index'));
-            }
-            $this->sentenceRepository->delete($id);
-
-            Flash::success(__('messages.deleted'));
+            Flash::error(__('messages.not-found'));
+            return redirect(route('superadmin.sentences.index'));
         }
-        return redirect(route('superadmin.sentences.index'));
     }
 }

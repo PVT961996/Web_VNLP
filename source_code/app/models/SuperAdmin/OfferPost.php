@@ -31,14 +31,8 @@ class OfferPost extends Model
 
 
     public $fillable = [
-        'short_description',
-        'description',
-        'offer_counts',
-        'view_counts',
-        'file',
-        'link_download',
-        'source',
-        'post_id',
+        'content',
+        'file_id',
         'status'
     ];
 
@@ -48,14 +42,9 @@ class OfferPost extends Model
      * @var array
      */
     protected $casts = [
-        'short_description' => 'string',
-        'description' => 'string',
-        'offer_counts' => 'integer',
-        'view_counts' => 'integer',
-        'file' => 'string',
-        'link_download' => 'string',
-        'source' => 'string',
-        'post_id' => 'integer'
+        'content' => 'string',
+        'file_id' => 'integer',
+        'status' => 'integer',
     ];
 
     /**
@@ -70,8 +59,8 @@ class OfferPost extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function document()
+    public function file()
     {
-        return $this->belongsTo(\App\Models\SuperAdmin\Document::class, 'document_id', 'id');
+        return $this->belongsTo(\App\Models\SuperAdmin\File::class, 'file_id', 'id');
     }
 }

@@ -1,16 +1,4 @@
-@if($sentence->file->documents[0]->type == 1 && isset($sentence->file->documents[1]->type))
-    {{--<div class="form-group col-sm-12 col-lg-12">--}}
-    {{--{!! Form::label('file_id', 'Nhãn từ loại:') !!}--}}
-    {{--<div class="scope_label">--}}
-    {{--@foreach($label_types as $key => $label_type)--}}
-    {{--<div class="draggable draggable2 ui-widget-content" id="{{ $key }}">--}}
-    {{--<div class="col-sm-1">--}}
-    {{--<button class="btn btn-default" type="button">{{ $label_type->name }}</button>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--@endforeach--}}
-    {{--</div>--}}
-    {{--</div>--}}
+@if(isset($sentence->file->documents[1]->type) && $sentence->file->documents[0]->type == 1)
     <div class="form-group col-sm-12 col-lg-12">
         <div class="form-group col-sm-12 col-lg-12" style="padding-top: 15px;">
             {!! Form::label('content', __('messages.sentence_content')) !!}
@@ -41,14 +29,13 @@
     </div>
     {{--<input type="hidden" name="content" id="contentText"--}}
     {{--value="{{ isset($sentence->content)? $sentence->content : "" }}">--}}
-@elseif($sentence->file->documents[0]->type == 1)
+@elseif(isset($sentence) && $sentence->file->documents[0]->type == 1)
     <div class="form-group col-sm-12 col-lg-12">
         {!! Form::label('content', __('messages.sentence_content')) !!}
         <input type="text" name="content" id="contentText" class="form-control"
                value="{{ isset($sentence->content)? $sentence->content : "" }}">
     </div>
     <div class="form-group col-sm-12 col-lg-12">
-
         @php
             $hide = 0;
         @endphp
@@ -85,7 +72,8 @@
                         <div class="draggable draggable4 ui-widget-content" style="display: none"
                              id="{{ ($hide+$key) }}">
                             <div class="col-sm-1">
-                                <button class="btn btn-default" type="button">{{ $sub_words[count($sub_words)-1] }}</button>
+                                <button class="btn btn-default"
+                                        type="button">{{ $sub_words[count($sub_words)-1] }}</button>
                             </div>
                         </div>
                     @endforeach
@@ -99,6 +87,13 @@
             @endforeach
         </div>
     </div>
+@elseif(isset($sentence) && $sentence->file->documents[0]->type == 3)
+    <div class="form-group col-sm-12 col-lg-12">
+        <div id='jstree_edit_div'>{!! $output !!}</div>
+        {!! Form::label('content', __('messages.sentence_content')) !!}
+        <input type="text" name="content" id="contentText" class="form-control"
+               value="{{ isset($sentence->content)? $sentence->content : "" }}">
+    </div>
 @else
     <!-- Content Field -->
     <div class="form-group col-sm-12 col-lg-12">
@@ -108,7 +103,7 @@
 @endif
 
 <!-- File Id Field -->
-<input type="hidden" name="file_id" value="{{ $sentence->file->id }}">
+<input type="hidden" name="file_id" value="{{ isset($sentence) ? $sentence->file->id : 0 }}">
 {{--<div class="form-group col-sm-6">--}}
 {{--{!! Form::label('file_id', __('messages.sentence_file')) !!}--}}
 {{--{!! Form::select('file_id', $fileCorpus, isset($selectedFile) ? $selectedFile : null, ['class' => 'form-control']) !!}--}}

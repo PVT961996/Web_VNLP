@@ -28,13 +28,53 @@
                                        value="{{ isset($sentence->content)? $sentence->content : "" }}">
                             </div>
                             <div class="form-group col-sm-12 col-lg-12">
-                                <div id="containment-wrapper">
+                                @php
+                                    $hide = 0;
+                                @endphp
+                                <div class="containment-wrapper">
                                     @foreach($words as $key => $word)
-                                        <div class="draggable draggable2 ui-widget-content active" id="{{ $key }}">
-                                            <div class="col-sm-1">
-                                                <button class="btn btn-default" type="button">{{ $word }}</button>
+                                        @if(strpos($word, '_') !== false)
+                                            @php
+                                                $sub_words = explode('_', $word);
+                                            @endphp
+                                            <div class="draggable draggable4 ui-widget-content active" id="{{ $key+$hide }}"
+                                                 style="width: 180px;">
+                                                @foreach($sub_words as $index => $sub_word)
+                                                    @if($index == 0)
+                                                        <div class="col-sm-1" style="margin-right: 40px;">
+                                                            <button class="btn btn-default" type="button">{{ $sub_word }}</button>
+                                                        </div>
+                                                    @else
+                                                        <div class="col-sm-1">
+                                                            <button class="btn btn-default" type="button">{{ $sub_word }}</button>
+                                                        </div>
+                                                    @endif
+                                                    @if($index < count($sub_words)-1)
+                                                        <div class="col-sm-1">
+                                                            <button onclick='exchange({{ ($key+$hide) }}, 90)' class='exchange'
+                                                                    type='button'><i class='fa fa-exchange' aria-hidden='true'></i></button>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
                                             </div>
-                                        </div>
+                                            @php
+                                                $hide += count($sub_words)-1;
+                                            @endphp
+                                            @foreach(array_fill(0,count($sub_words)-1,1) as $skey=>$value)
+                                                <div class="draggable draggable4 ui-widget-content" style="display: none"
+                                                     id="{{ ($hide+$key) }}">
+                                                    <div class="col-sm-1">
+                                                        <button class="btn btn-default" type="button">{{ $sub_words[count($sub_words)-1] }}</button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <div class="draggable draggable4 ui-widget-content active" id="{{ ($hide+$key) }}">
+                                                <div class="col-sm-1">
+                                                    <button class="btn btn-default" type="button">{{ $word }}</button>
+                                                </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

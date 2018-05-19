@@ -25,16 +25,22 @@
                 <td>{{str_limit($file->content, $limit = 150, $end = '...')}}</td>
                 <td>{{str_limit($file->description, $limit = 150, $end = '...')}}</td>
                 <td>{!! Helper::formatCategories($file->documents,"<br>") !!}</td>
-                <td style="min-width: 110px">
+                <td style="min-width: 130px">
                     {!! Form::open(['route' => ['superadmin.files.destroy', $file->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{!! route('superadmin.files.show', [$file->id]) !!}"
                            class='btn btn-default btn-xs'><i
                                     class="glyphicon glyphicon-eye-open"></i></a>
-                        <a href="{!! route('superadmin.files.edit', [$file->id]) !!}"
+                        <a href="{!! route('superadmin.files.offer', [$file->id]) !!}"
                            class='btn btn-default btn-xs'><i
-                                    class="glyphicon glyphicon-edit"></i></a>
-                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('".Lang::get('messages.delete_confirm')."')"]) !!}
+                                    class="fa fa-bolt"></i></a>
+
+                    @if(Auth::user()->id == $file->user->id)
+                            <a href="{!! route('superadmin.files.edit', [$file->id]) !!}"
+                               class='btn btn-default btn-xs'><i
+                                        class="glyphicon glyphicon-edit"></i></a>
+                            {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('".Lang::get('messages.delete_confirm')."')"]) !!}
+                        @endif
                         @if ($file->documents[0]->type == 5)
                             <button id="{{ $file->id }}" type="button"
                                     class='btn btn-default btn-xs evaluatedCmt' data-toggle="modal"
@@ -45,6 +51,7 @@
                 </td>
             </tr>
         @endforeach
+
         <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
             {!! Form::open(['route' => ['superadmin.files.evaluated'], 'method' => 'post']) !!}
             <div class="modal-dialog modal-md" role="document">

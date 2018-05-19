@@ -1,5 +1,5 @@
 <li class="treeview">
-    <a href="#">
+    <a href="{!! route('superadmin.dashboard.index') !!}">
         <i class="fa fa-dashboard"></i> <span>@lang('messages.dashboard')</span>
     </a>
 </li>

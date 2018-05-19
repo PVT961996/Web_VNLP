@@ -27,8 +27,8 @@ $('#items').submit();}")) }}
                 <div class="box-tools-search">
                     {!! Form::open(['method' => 'GET','route' => 'superadmin.offerPosts.index','role' => 'search']) !!}
                     <div class="form-inline text-right">
-                        {!! Form::text('search[short_description]', null, ['class' => 'form-control', 'placeholder' => Lang::get('messages.offer_post_description')]) !!}
-                        {!! Form::text('search[source]', null, ['class' => 'form-control', 'placeholder' => Lang::get('messages.offer_post_source')]) !!}
+                        {!! Form::text('search[short_description]', null, ['class' => 'form-control', 'placeholder' => Lang::get('messages.offer_post_content')]) !!}
+                        {{--{!! Form::text('search[source]', null, ['class' => 'form-control', 'placeholder' => Lang::get('messages.offer_post_source')]) !!}--}}
                         {!! Form::button('<i class="fa fa-search"></i> '.Lang::get('messages.search'), ['class' => 'btn btn-primary','type'=>'submit']) !!}
                         <a class="btn btn-warning" href="{!! route('superadmin.offerPosts.index') !!}"><i class="fa fa-eraser"></i> @lang('messages.reset')</a>
                     </div>

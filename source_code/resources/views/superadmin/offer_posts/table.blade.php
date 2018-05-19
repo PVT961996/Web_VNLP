@@ -3,7 +3,7 @@
     <tr>
         <th width="40px">@lang('messages.no')</th>
         <th><input type="checkbox" name="checkedAll" id="checkedAll" class="minimal checkAll"/></th>
-        <th>@lang('messages.offer_post_description')</th>
+        <th>@lang('messages.offer_post_content')</th>
         {{--<th>Mô tả</th>--}}
         {{--<th>Offer Counts</th>--}}
         {{--<th>View Counts</th>--}}
@@ -27,7 +27,7 @@
                 <td width="40px"><input type="checkbox" name="ids[]" value="{{ $offerPost->id }}"
                                         class="minimal checkSingle"
                                         form="items"/></td>
-                <td>{!! str_limit($offerPost->short_description, $limit = 150, $end = '...') !!}</td>
+                <td>{!! str_limit($offerPost->content, $limit = 150, $end = '...') !!}</td>
                 {{--<td>{!! str_limit($offerPost->description, $limit = 150, $end = '...') !!}</td>--}}
                 {{--<td>{!! $offerPost->offer_counts !!}</td>--}}
                 {{--<td>{!! $offerPost->view_counts !!}</td>--}}
@@ -35,8 +35,8 @@
                 {{--<td>{!! $offerPost->link_download !!}</td>--}}
                 {{--<td>{!! $offerPost->source !!}</td>--}}
                 <td>{!! Helper::convertStatus($offerPost->status) !!}</td>
-                <td>{!! $offerPost->document->name !!}</td>
-                <td>
+                <td>{!! $offerPost->file->name !!}</td>
+                <td style="min-width: 110px;">
                     {!! Form::open(['route' => ['superadmin.offerPosts.destroy', $offerPost->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{!! route('superadmin.offerPosts.show', [$offerPost->id]) !!}"

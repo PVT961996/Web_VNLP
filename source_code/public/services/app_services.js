@@ -15,31 +15,32 @@ function autoComment() {
     })
 }
 
+
 function addTooltipButton() {
     $('.glyphicon.glyphicon-eye-open').tooltip({
         title: "Xem",
         placement: "top"
-    })
+    });
 
     $('.glyphicon.glyphicon-edit').tooltip({
         title: "Sửa",
         placement: "top"
-    })
+    });
 
     $('.glyphicon.glyphicon-trash').tooltip({
         title: "Xóa",
         placement: "top"
-    })
+    });
 
     $('.glyphicon.glyphicon-comment').tooltip({
         title: 'Đánh giá',
         placement: "top"
-    })
+    });
 
     $('.fa.fa-pencil').tooltip({
         title: 'Sửa nâng cao',
         placement: "top"
-    })
+    });
 }
 
 function dragElement() {

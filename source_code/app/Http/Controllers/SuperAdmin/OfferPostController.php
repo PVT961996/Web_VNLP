@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Requests\Superadmin\CreateOfferPostRequest;
 use App\Http\Requests\Superadmin\UpdateOfferPostRequest;
+use App\Repositories\Superadmin\FileRepository;
 use App\Repositories\SuperAdmin\OfferPostRepository;
 use App\Repositories\Superadmin\DocumentRepository;
 use App\Http\Controllers\AppBaseController;
@@ -16,12 +17,12 @@ class OfferPostController extends AppBaseController
 {
     /** @var  OfferPostRepository */
     private $offerPostRepository;
-    private $documentRepository;
+    private $fileRepository;
 
-    public function __construct(OfferPostRepository $offerPostRepo, DocumentRepository $documentRepo)
+    public function __construct(OfferPostRepository $offerPostRepo, FileRepository $fileRepo)
     {
         $this->offerPostRepository = $offerPostRepo;
-        $this->documentRepository = $documentRepo;
+        $this->fileRepository = $fileRepo;
     }
 
     /**
@@ -33,7 +34,7 @@ class OfferPostController extends AppBaseController
     public function index(Request $request)
     {
         $search = $request->search;
-        $documents = $this->documentRepository->getAllForSelectBox(['*'],null,true);
+//        $documents = $this->documentRepository->getAllForSelectBox(['*'],null,true);
         $searchCondition = [];
         if (!empty($search)) {
             if (!empty($search['short_description'])) {
@@ -48,7 +49,7 @@ class OfferPostController extends AppBaseController
             $offerPosts = $this->offerPostRepository->orderBy('updated_at', 'DESC')->paginate(10);
         }
 
-        return view('superadmin.offer_posts.index',compact('documents','offerPosts'));
+        return view('superadmin.offer_posts.index',compact('offerPosts'));
     }
 
     /**
@@ -109,15 +110,13 @@ class OfferPostController extends AppBaseController
     public function edit($id)
     {
         $offerPost = $this->offerPostRepository->findWithoutFail($id);
-        $documents = $this->documentRepository->getAllDocument();
-        $selectedDocument= $offerPost->post_id;
 
         if (empty($offerPost)) {
             Flash::error(__('messages.not-found'));
             return redirect(route('superadmin.offerPosts.index'));
         }
 
-        return view('superadmin.offer_posts.edit',  compact('offerPost','selectedDocument','documents'));
+        return view('superadmin.offer_posts.edit',  compact('offerPost'));
     }
 
     /**
@@ -139,9 +138,9 @@ class OfferPostController extends AppBaseController
 
         $offerPost = $this->offerPostRepository->update($request->all(), $id);
         if($request["status"] == "1"){
-            $document = $this->documentRepository->findByField('id',[$offerPost->document_id],['*'])->first();
-            $document->short_description = strip_tags($offerPost->short_description);
-            $document->save();
+            $file = $this->fileRepository->findByField('id','=',[$offerPost->file_id],['*'], false,16)->first();
+            $file->content = strip_tags($offerPost->content);
+            $file->save();
         }
 
         Flash::success(__('messages.updated'));

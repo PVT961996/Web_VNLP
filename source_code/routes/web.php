@@ -103,7 +103,8 @@ Route::group(['middleware' => ['auth.superadmin']], function () {
     Route::get('superadmin/files/{files}', ['as' => 'superadmin.files.show', 'uses' => 'Superadmin\FileController@show']);
     Route::get('superadmin/files/{files}/edit', ['as' => 'superadmin.files.edit', 'uses' => 'Superadmin\FileController@edit']);
     Route::post('superadmin/files/evaluated', ['as'=> 'superadmin.files.evaluated', 'uses' => 'Superadmin\FileController@evaluated']);
-
+    Route::get('superadmin/files/offer/{files}', ['as' => 'superadmin.files.offer', 'uses' => 'Superadmin\FileController@offer']);
+    Route::post('superadmin/files/offer', ['as'=> 'superadmin.files.edit_offer', 'uses' => 'Superadmin\FileController@edit_offer']);
 
 //Sentence
     Route::get('superadmin/sentences', ['as' => 'superadmin.sentences.index', 'uses' => 'Superadmin\SentenceController@index']);

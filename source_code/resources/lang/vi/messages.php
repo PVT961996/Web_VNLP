@@ -103,9 +103,9 @@ return [
     'user_phone_placeholder' => 'Nhập số điện thoại',
     'user_email_placeholder' => 'Nhập email',
     'user_actived' => 'Kích hoạt',
-    'group_1' => 'Quản trị viên',
+    'group_1' => 'Quản trị viên cấp cao',
     'group_2' => 'Người dùng',
-    'group_3' => 'Khác',
+    'group_3' => 'Quản trị viên',
     'sex_1' => 'Nam',
     'sex_2' => 'Nữ',
     'sex_3' => 'Chưa xác đinh',
@@ -201,11 +201,11 @@ return [
     'select_category_document' => 'Chọn danh mục Corpus',
 
     #Offer Post
-    'offer_post_management' => 'Quản lý Bài viết đề xuất',
-    'offer_post' => 'Bài viết đề xuất',
-    'offer_post_list' => 'Danh sách Bài viết đề xuất',
+    'offer_post_management' => 'Quản lý Đề xuất chỉnh sửa',
+    'offer_post' => 'Đề xuất chỉnh sửa',
+    'offer_post_list' => 'Danh sách Đề xuất chỉnh sửa',
     'offer_post_post' => 'Bài viết',
-    'offer_post_description' => 'Mô tả',
+    'offer_post_content' => 'Nội dung',
     'offer_post_source' => 'Nguồn',
     'status' => 'Trạng thái',
     'status_1' => 'Kích hoạt',
@@ -232,6 +232,7 @@ return [
     'like' => 'Thích',
     'dislike' => 'Không thích',
     'neutral' => 'Bình thường',
+    'edit_offer' => 'Đề xuất chỉnh sửa',
 
     //Sentences
     'sentences' => 'Câu',
