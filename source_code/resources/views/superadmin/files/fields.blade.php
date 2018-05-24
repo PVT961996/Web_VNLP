@@ -21,7 +21,7 @@
 @else
     <div class="form-group col-sm-12 col-lg-12">
         {!! Form::label('content', __('messages.file_content')) !!}
-        {{ Form::textarea('content', null, ['class' => 'form-control']) }}
+        {{ Form::textarea('content', null, ['class' => 'form-control', 'id'=>'text']) }}
     </div>
 @endif
 
@@ -61,3 +61,8 @@
     <a href="{!! route('superadmin.files.index') !!}" class="btn btn-default"><i
                 class="fa fa-mail-reply"></i> @lang('messages.cancel')</a>
 </div>
+{{--<script>--}}
+    {{--$('#text').change( function () {--}}
+        {{--alert($(this).text());--}}
+    {{--})--}}
+{{--</script>--}}

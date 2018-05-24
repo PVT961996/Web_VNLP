@@ -93,7 +93,7 @@ class FileController extends AppBaseController
         $input['user_id'] = Auth::user()->id;
         $input["description"] = strip_tags($input["description"]);
         $input["content"] = strip_tags($input["content"]);
-        if ($input['documents'] == 1) {
+        if ($input['documents'][0] == 1) {
             $output_file = "";
             if (!empty($request->file)) {
                 $file = time() . '.' . Helper::transText($request->file->getClientOriginalName(), '-');
@@ -101,7 +101,7 @@ class FileController extends AppBaseController
                 $input['file'] = '/files/' . $file;
                 $output_file = 'output_' . time() . '.' . Helper::transText($request->file->getClientOriginalName(), '-');
             }
-            exec('java -jar D:/2018/KHOALUAN/Web_VNLP/public/libs/vitk-tok-5.1.jar D:/2018/KHOALUAN/Web_VNLP/public/' . $input['file'] . ' D:/2018/KHOALUAN/Web_VNLP/public/files/' . $output_file);
+            exec('java -jar D:/2018/KHOALUAN/Web_VNLP/source_code/public/libs/vitk-tok-5.1.jar D:/2018/KHOALUAN/Web_VNLP/source_code/public/' . $input['file'] . ' D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/' . $output_file);
 
             $fp = @fopen('files/' . $output_file, "r");
             if ($fp) {
@@ -123,9 +123,44 @@ class FileController extends AppBaseController
             }
         }
 
+//        if ($input['documents'][0] == 2) {
+//            $fp = @fopen('files/demo2.txt', "w");
+//            // Kiểm tra file mở thành công không
+//            $input["content"] = strip_tags($input["content"]);
+////            $input["content"] = iconv("ASCII//TRANSLIT", "UTF-8", $input["content"]);
+//            $input['content'] = urldecode($input['content']);
+////            dd($request);
+//            dd(urldecode($input['content']));
+//            if (!$fp) {
+//                echo 'Mở file không thành công';
+//            } else {
+//                fwrite($fp, $input['content']);
+//            }
+//            exec('java -jar D:/2018/KHOALUAN/Web_VNLP/source_code/public/libs/vitk-pos-5.1.jar C:\Users\thanh\Desktop\demo2.txt C:\Users\thanh\Desktop\output.txt', $result);
+//            dd($result);
+//            $fp = @fopen('files/demo2.txt', "r");
+//            if ($fp) {
+//                if (filesize('files/' . $output_file) > 0) {
+//                    $data = fread($fp, filesize('files/' . $output_file));
+//
+//                    $datas = explode(' ', $data);
+//                    foreach ($datas as $key => $value) {
+//                        $datas[$key] = preg_replace("/\/.*/", '', $value);
+//                    }
+//                    $input['content'] = "";
+//                    foreach ($datas as $key => $value) {
+//                        $input['content'] .= $value . " ";
+//                    }
+//                    fclose($fp);
+//                }
+//            } else {
+//                echo "fail";
+//            }
+//        }
+
 //        exec('java -jar D:/2018/KHOALUAN/Web_VNLP/public/libs/vitk-cus.jar "Đội tuyển U23 Việt Nam vô địch." D:/2018/KHOALUAN/Web_VNLP/public/files/output2.txt', $output);
 //        print_r($output[0]);
-        $file = $this->fileRepository->create($input);
+//        $file = $this->fileRepository->create($input);
 
         Flash::success(__('messages.created'));
 
