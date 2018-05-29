@@ -13,9 +13,9 @@
                 <li>
                     <a href="#">
                         @if(isset($selectedCategories) && in_array($category->id, $selectedCategories))
-                            {{ Form::checkbox('categories[]', $category->id, true, ['class' => 'minimal']) }}
+                            {{ Form::checkbox('documents[]', $category->id, true, ['class' => 'minimal']) }}
                         @else
-                            {{ Form::checkbox('categories[]', $category->id, false, ['class' => 'minimal']) }}
+                            {{ Form::checkbox('documents[]', $category->id, false, ['class' => 'minimal']) }}
                         @endif
                         {{ $category->name }}
                     </a>

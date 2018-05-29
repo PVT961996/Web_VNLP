@@ -28,7 +28,7 @@
                         <a href="{!! route('superadmin.sentences.show', [$sentence->id]) !!}"
                            class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
                         @if(Auth::user()->id == $sentence->file->user->id)
-                            @if($sentence->file->documents[0]->type == 1 && !isset($sentence->file->documents[1]))
+                            @if(($sentence->file->documents[0]->type == 1 && !isset($sentence->file->documents[1])) || (isset($sentence->file->documents[1]) && $sentence->file->documents[1]->type == 2))
                                 <a href="{!! route('superadmin.sentences.edit_high', [$sentence->id]) !!}"
                                    class='btn btn-default btn-xs'><i class="fa fa-pencil"></i></a>
                             @endif

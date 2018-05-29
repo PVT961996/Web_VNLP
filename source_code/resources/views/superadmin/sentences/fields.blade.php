@@ -103,7 +103,7 @@
 @endif
 
 <!-- File Id Field -->
-<input type="hidden" name="file_id" value="{{ isset($sentence) ? $sentence->file->id : 0 }}">
+<input type="hidden" name="file_id" value="{{ isset($sentence) ? $sentence->file->id : 5747 }}">
 {{--<div class="form-group col-sm-6">--}}
 {{--{!! Form::label('file_id', __('messages.sentence_file')) !!}--}}
 {{--{!! Form::select('file_id', $fileCorpus, isset($selectedFile) ? $selectedFile : null, ['class' => 'form-control']) !!}--}}

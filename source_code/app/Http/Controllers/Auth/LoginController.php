@@ -40,10 +40,8 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         $user = Auth::user();
-        if ($user->group_id == 1 && $user->confirmed == 1)
+        if (($user->group_id == 1 || $user->group_id == 3)&& $user->confirmed == 1)
             return '/superadmin/dashboard';
-        else if($user->group_id == 2 && $user->confirmed == 1)
-            return '/admin/dashboard';
         else return '/';
     }
 
@@ -64,7 +62,7 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'confirmed'=>1])) {
-            return redirect()->intended('/admin/users');
+            return redirect()->intended('/superadmin/users');
         }
         else {
             return back()->withErrors([__('auth.failed')]);

@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                @include('shared.categories', ['categories' => $categories, 'selectedCategories' => $selectedCategories])
+                @include('shared.documents', ['categories' => $categories, 'selectedCategories' => $selectedCategories])
             </div>
         </div>
         {!! Form::close() !!}

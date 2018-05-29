@@ -98,7 +98,6 @@ class DocumentController extends AppBaseController
         }
         $input["user_id"] = Auth::user()->id;
         $input["description"] = strip_tags($input["description"]);
-        $input["short_description"] = strip_tags($input["short_description"]);
 
         $document = $this->documentRepository->create($input);
 
@@ -216,10 +215,6 @@ class DocumentController extends AppBaseController
                             Flash::warning(__('messages.document_contain_file_error'));
                             return back();
                         }
-                        if (!$documents->offerPosts->isEmpty()) {
-                            Flash::warning(__('messages.document_contain_offer_post_error'));
-                            return back();
-                        }
                         $documentCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['*'], false);
                         foreach ($documentCategories as $documentCategory) {
                             $this->docCategoryRepository->delete($documentCategory->id);
@@ -238,9 +233,6 @@ class DocumentController extends AppBaseController
                     return redirect(route('superadmin.documents.index'));
                 } elseif (!$document->files->isEmpty()) {
                     Flash::warning(__('messages.document_contain_file_error'));
-                    return back();
-                } elseif (!$document->offerPosts->isEmpty()) {
-                    Flash::warning(__('messages.document_contain_offer_post_error'));
                     return back();
                 }
                 $documentCategories = $this->docCategoryRepository->findByField('document_id', '=', $id, ['*'], false);

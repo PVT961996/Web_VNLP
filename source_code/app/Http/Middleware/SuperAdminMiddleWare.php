@@ -17,7 +17,7 @@ class SuperAdminMiddleWare extends Authenticate
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        if (Auth::check() && Auth::user()->group_id == 1 && Auth::user()->confirmed == 1)
+        if ((Auth::check() && (Auth::user()->group_id == 1 || Auth::user()->group_id == 3)) && Auth::user()->confirmed == 1)
             return $next($request);
         else{
             $this->authenticate($guards);

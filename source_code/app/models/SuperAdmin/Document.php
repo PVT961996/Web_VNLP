@@ -86,10 +86,10 @@ class Document extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function offerPosts()
-    {
-        return $this->hasMany(\App\Models\SuperAdmin\OfferPost::class);
-    }
+//    public function offerPosts()
+//    {
+//        return $this->hasMany(\App\Models\SuperAdmin\OfferPost::class);
+//    }
 
     public function categories()
     {

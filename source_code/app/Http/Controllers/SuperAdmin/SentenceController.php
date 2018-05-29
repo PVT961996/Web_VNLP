@@ -178,7 +178,14 @@ class SentenceController extends AppBaseController
     {
         $sentence = $this->sentenceRepository->findWithoutFail($id);
         $words = explode(' ', $sentence->content);
-
+        $arrs = [];
+        if ($sentence->file->documents[0]->type == 1 && isset($sentence->file->documents[1]->type)) {
+            $label_types = $this->labelTypeRepository->findByField('type', 0);
+            foreach ($words as $word) {
+                $label = explode('/', $word);
+                array_push($arrs, $label[0], $label[1]);
+            }
+        }
         $fileCorpus = $this->fileRepository->getAllFile();
         $selectedFile = $sentence->file_id;
 
@@ -187,7 +194,7 @@ class SentenceController extends AppBaseController
             return redirect(route('superadmin.sentences.index'));
         }
 
-        return view('superadmin.sentences.edit_high', compact('fileCorpus', 'sentence', 'selectedFile', 'words'));
+        return view('superadmin.sentences.edit_high', compact('fileCorpus', 'sentence', 'selectedFile', 'words', 'label_types', 'arrs'));
     }
 
     /**
@@ -231,15 +238,18 @@ class SentenceController extends AppBaseController
             return redirect(route('superadmin.sentences.index'));
         }
 //        $request["content"] = strip_tags($request["content"]);
-        $fp = @fopen('files/demo.txt', "w");
-        // Kiểm tra file mở thành công không
-        if (!$fp) {
-            echo 'Mở file không thành công';
-        } else {
-            fwrite($fp, $input['content']);
-        }
-        exec('javac D:/SetUp/eclipse/workspace/PhuongLHClient/src/MyClient.java');
-        exec('java -cp D:/SetUp/eclipse/workspace/PhuongLHClient/src MyClient "D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/demo.txt"',$output);
+
+        if($sentence->file->documents[0]->type == 1 && !isset($sentence->file->documents[1])) {
+            $fp = @fopen('files/demo.txt', "w");
+            // Kiểm tra file mở thành công không
+            if (!$fp) {
+                echo 'Mở file không thành công';
+            } else {
+                fwrite($fp, $input['content']);
+            }
+
+            exec('javac D:/SetUp/eclipse/workspace/PhuongLHClient/src/MyClient.java');
+            exec('java -cp D:/SetUp/eclipse/workspace/PhuongLHClient/src MyClient "D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/demo.txt"', $output);
 //        exec('java -jar D:/2018/KHOALUAN/Web_VNLP/source_code/public/libs/vitk-tok-5.1.jar D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/demo.txt D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/output.txt');
 //        $fp = @fopen('files/output.txt', "r");
 //        if ($fp) {
@@ -258,9 +268,32 @@ class SentenceController extends AppBaseController
 //            }
 //        } else {
 //            echo "fail";
+            $sentence->content = $output[0];
+            $sentence->save();
 //        }
-        $sentence->content = $output[0];
-        $sentence->save();
+        }
+        elseif (isset($sentence->file->documents[1]) && $sentence->file->documents[1]->type == 2){
+            $text = explode(' ', $input['content']);
+            $text = preg_replace("/\/.*/", "", $text);
+            $text = str_replace("_", " ", $text);
+            $input['content'] = "";
+            foreach ($text as $key => $value){
+                $input['content'] .= $value . " ";
+            }
+            $fp = @fopen('files/demo.txt', "w");
+            // Kiểm tra file mở thành công không
+            if (!$fp) {
+                echo 'Mở file không thành công';
+            } else {
+                fwrite($fp, $input['content']);
+            }
+
+            exec('javac D:/SetUp/eclipse/workspace/vnTaggerClient/src/MyClient.java');
+            exec('java -cp D:/SetUp/eclipse/workspace/vnTaggerClient/src/ MyClient "D:/2018/KHOALUAN/Web_VNLP/source_code/public/files/demo.txt"', $output);
+            $sentence->content = $output[0];
+            $sentence->save();
+        }
+
 //        $sentence = $this->sentenceRepository->update($input, $id);
         Flash::success(__('messages.updated'));
         return redirect(route('superadmin.sentences.edit_high', [$id]));

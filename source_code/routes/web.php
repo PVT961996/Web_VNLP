@@ -146,10 +146,10 @@ Route::group(['middleware' => ['auth.superadmin']], function () {
     Route::get('superadmin/fileUsers/{fileUsers}/edit', ['as'=> 'superadmin.fileUsers.edit', 'uses' => 'Superadmin\FileUserController@edit']);
 });
 
-Route::group(['middleware' => ['auth.admin']], function () {
-    Route::get('admin/dashboard', ['as' => 'admin.dashboard.index', 'uses' => 'Admin\DashboardController@index']);
-
-});
+//Route::group(['middleware' => ['auth.admin']], function () {
+//    Route::get('admin/dashboard', ['as' => 'admin.dashboard.index', 'uses' => 'Admin\DashboardController@index']);
+//
+//});
 
 Route::get('/tai-lieu', ['as' => 'documents', 'uses' => 'Frontend\DocumentController@index']);
 Route::get('/files/{files}', ['as' => 'files.show', 'uses' => 'Frontend\FileController@show']);
