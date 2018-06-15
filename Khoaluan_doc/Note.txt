@@ -1,0 +1,437 @@
+﻿SQL Injection
+Trong câu SQL nên viết theo kiểu truyền tham số vào, k nên để dấu ngoặc kép
+
+
+empty? is a standard Ruby method on some objects like Arrays, Hashes and Strings. Its exact behaviour will depend on the specific object, but typically it returns true if the object contains no elements.
+
+blank? is not a standard Ruby method but is added to all objects by Rails and returns true for nil, false, empty, or a whitespace string.
+
+Crop C+Enter => Click + Alt
+
+username: root
+password: 1qaz2wsx~
+host: 101.99.12.74
+port: 3306
+
+Entrance: Cổng vào
+Emphasis: Nhấn mạnh
+Wheel: Bánh xe
+Shrink and turn: Co lại và xoay
+Fade: phai, khô héo
+Pulse: Đập
+Teeter: Đu đưa
+Transparency: Trong suốt
+Wipe: Lau, chùi
+Sweat(perspire): Mồ hôi
+ceiling fans: Quạt trần
+pressure: áp lực, tight: chặt chẽ
+
+Với sự mất tập trung liên tục và áp lực hàng ngày của trách nhiệm, điều quan trọng là phải bắt đầu buổi sáng của bạn để có được cơ thể tâm trí của bạn chuẩn bị cho các
+thói quen hàng ngày của bạn
+1. Thức dậy sớm
+Chúng ta thường thức dậy muộn nhất có thể, nhưng mất thời gian quý báu vào buổi sáng gây áp lực lên cơ thể và trí óc chúng ta. Tuy nhiên trong suốt cả ngày lúc nào
+chúng ta cũng sẽ cảm thấy mệt mỏi và dẫn đến hiệu quả công việc bị suy giảm.
+Những người dậy sớm lên kế hoạch cho những công việc quan trọng sẽ chủ động được công việc của mình hơn những người ngủ muộn và dậy muộn.
+Vì buổi sáng là khoảng thời gian lý tưởng nhất để lên kế hoạch công việc cho một ngày, cũng như việc viết nhật ký, đi dạo trong khu vườn xinh để hòa mình vào với thiên nhiên.
+2. Uống 1 ly nước ngay khi bạn thức dậy
+Cơ thể của chúng ta thường ngừng mọi hoạt động khi đang ngủ. Lợi ích của việc uống nước:
+- Làm sạch trực tràng và giúp cải thiện những thay đổi để hấp thu các dưỡng chất thích hợp với dạ dạy của bạn.
+- Hỗ trợ giúp hệ tiêu hóa khỏe
+- Cho bạn một làn da trắng sáng, mịn màng vì uống nhiều nước giúp loại các độc tố ra khỏi máu và cơ thể.
+- Uống nước giúp tái sinh tế bào máu mới cũng như tế bào cơ làm cơ bắp săn chắc hơn.
+- Uống nước là cách tuyệt vời nhất giúp giảm cân nhanh
+- Uống nước kích thích nhu động ruột, đẩy nhanh quá trình bài tiết và là mẹo trị táo bón hiệu quả.
+- Uống nước sẽ giúp đào thải nhanh chất độc có hại, làm dễ chịu khí quản, chống viêm, giảm ho nhanh.
+- Uống nước ấm cũng làm tăng nhiệt cơ thể để có giấc ngủ ngon.Chính vì thế khi bị mất ngủ triền miên, trước giờ ngủ bạn nên tắm hoặc ngâm mình bằng nước ấm sẽ khiến cơ thể dễ chịu và ngủ say hơn.
+Ngoài ra, đảm bảo không ăn gì ngay sau khi uống nước buổi sáng và chỉ nên ăn cách sau đó 30 - 60 phút là tốt nhất.
+3. Tránh xa các thiết bị điện tử trong vòng 1h
+Smartphone có thể sẽ gây ra sự phân tâm lớn, khiến sự hưng phấn, cảm giác sẵn sàng cho một ngày mới của bạn giảm đi nhiều. 
+Nguy hiểm hơn, bạn thậm chí không nhận ra điều đó. Họ có xu hướng kiểm tra mail trên điện thoại đầu tiên vào mỗi buổi sáng thức dây, nghe nhạc lâu hơn khi đi tắm và chơi game lâu hơn khi ngồi toilet.
+ Bạn có thể bị căng thẳng hơn, hoặc đi làm muộn chỉ vì nhấc chiếc iPhone lên vào mỗi sáng thức giấc.
+Thêm nữa, 79% người được khảo sát cho biết họ sử dụng smartphone trong vòng 15 phút sau khi thức dậy. Đối với người 18-24 tuổi, con số này tăng lên 89%.
+Khi bỏ ra một vài phút kiểm tra email vào buổi sáng, “bạn đứng trước nguy cơ phải làm những điều người khác muốn bạn làm”.
+Bạn chỉ cần 1 phút để lướt qua một email, phút tiếp theo bạn gõ để trả lời email đó. Cuối cùng, 20 phút trôi qua và bạn có thể vẫn đang nằm trên giường.
+4. Nghĩ về những điều tốt đẹp
+Biết ơn vì ngày hôm nay và nghĩ rằng bạn giàu có như thế nào, gia đình bạn là vô giá
+Cuộc sống hiện đại với bao nỗi lo toan khiến con người ta dễ quên đi những điều tốt đẹp trong quá khứ.
+Chúng ta chỉ cần chậm lại chút thôi cũng đã có thể đếm được những điều lớn, nhỏ đã bước vào cuộc sống của chúng ta như thế nào và thay đổi ra sao.
+ Nếu bạn là người hướng nội, những cảm xúc, lòng biết ơn khó nói thành lời, bạn đừng ngần ngại viết những xúc cảm ấy lên giấy mỗi sáng. 
+Bạn có thể cảm ơn cuộc sống đã giúp bạn luôn luôn lạc quan, truyền cho bạn động lực, cảm xúc, ngọn lửa đam mê để chinh phục những mục tiêu, mơ ước trong cuộc đời.
+5. Mở cửa đón ánh nắng mặt trời, hít thở không khí trong lành, thở sâu
+Ánh nắng mặt trời cũng là nguồn vitamin D tự nhiên tốt nhất cho cơ thể, giúp tâm trạng luôn thoải mái, 
+cũng như giúp quá trình sản xuất Serotonin - một chất hóa học tự nhiên trong bộ não và cơ thể có chức năng giữ cho tâm trạng được vui vẻ.
+6. Vận động cơ thể, tập thể dục buổi sáng
+Tập thể dục buổi sáng tăng cường quá trình sản xuất endorphins – một loại hooc môn hạnh phúc trong cơ thể. Vậy, có thể nói: tập thể dục giúp cho tâm trạng chúng ta vui vẻ hơn, hạnh phúc hơn.
+Ngoài ra, tập thể dục còn giúp bạn xua tan cảm giác chất béo tích tụ trong cơ thể, giảm lượng đường. Tập thể dục có thể giải phóng năng lượng dư thừa, giúp cơ thể nhẹ nhõm, thoải mái, dễ chịu.
+ Từ đó mà tâm trạng luôn vui tươi. Một ngày của chúng ta sẽ hạnh phúc hơn rất nhiều từ lối sống lành mạnh
+7. Ăn 1 bữa sáng ngon lành
+8. Khẳng định tích cực bằng lời nói
+Đánh giá bản thân là vô cùng quan trọng. Đối mặt với chính mình và nói lên sự thật tích cực. Tìm các điểm khác biệt ở bản thân mà bạn thích và nói thật to trước gương
+9. Lập kế hoạch rõ ràng cho ngày mới
+10. Để lại ngày hôm qua đằng sau
+Một ngày mới là một sự khởi đầu mới, mọi sự thất vọng và tiêu cực ngày hôm qua sẽ ảnh hưởng rất nhiều đến ngày hôm nay.
+11. Đọc sách, báo hay 1 cuốn tiểu thuyết sẽ giúp kích thích não bộ và trí tưởng tượng của bạn
+
+{{  }} hiển thị cả thẻ html
+{!! !!} Không hiển thị thẻ html
+
+select `news`.* from news WHERE id in( select DISTINCT `news`.id from `news` inner join `news_categories` on `news`.`id` = `news_categories`.`news_id` where `news`.`id` != '3') limit 10
+
+SELECT comments.*
+FROM comments
+  INNER JOIN
+  (SELECT document_id as id,MAX(created_at) AS MaxDateTime
+   FROM comments
+   GROUP BY comments.document_id) newtb
+    ON comments.document_id = newtb.id
+       AND comments.created_at = newtb.MaxDateTime
+ORDER BY comments.document_id
+
+SOAP (Simple Object Access Protocol): Giao thức truy cập đối tượng đơn giản
+
+knowledge.vn 7c29a0fef7f5bba101d7e4a3680344c8
+
+knowledge.bloomgoo.vn 6b1d7ecbaa051f93774cc58c383b99de
+
+sanbox knowledge.bloomgoo.vn e9cce0ff759272a90f137bae5dfe2102
+
+RAILS
+
+Add column to table
+$ bin/rails generate migration AddPartNumberToProducts part_number:string
+
+Add Columns to table
+rails g migration AddColumnsToCoworkers link:string short_link:string
+
+Add foreign key to table
+rails g migration AddVillageToPosts village:references
+
+Remove column from table
+$ bin/rails generate migration RemovePartNumberFromProducts part_number:string
+
+Create table Customer
+rails g scaffold SuperAdmin/Customer name:string email:string phone:string address:text
+
+--- rails scaffold SuperAdmin/FindSystem/City
+rails g scaffold SuperAdmin/FindSystem/City name:string
+
+--- rails scaffold SuperAdmin/FindSystem/District
+rails g scaffold SuperAdmin/FindSystem/District name:string find_system_cities:references
+
+Sau khi sửa xong thực hiện lệnh rails db:migrate để hoàn tất.
+
+Having
+
+SELECT date(created_at) as ordered_date, sum(price) as total_price
+FROM orders
+GROUP BY date(created_at)
+HAVING sum(price) > 100
+
+pluck để lấy giá trị của các cột muốn lấy
+Client.pluck(:id) or Client.select(:id).map(&:id)
+Client.pluck(:id, :name) or Client.select(:id, :name).map { |c| [c.id, c.name] }
+
+SELECT column_name(s)
+FROM table_name
+WHERE column_name IN (SELECT STATEMENT);
+
+SELECT * FROM Orders
+WHERE OrderDate BETWEEN #07/04/1996# AND #07/09/1996#;
+
+
+
+ # ROOM
+    user = current_user
+    service_building = building
+    name_room = Admin::Constants::SERVICES::NAME_ROOM
+    unit_room = Admin::Constants::SERVICES::UNIT_ROOM
+    description_room = Admin::Constants::SERVICES::NAME_ROOM
+    code_room = Admin::Constants::SERVICES::CODE_ROOM
+    service_type = Admin::Constants::SERVICES::TYPE_FIX
+    unit_price_room = 0
+
+    # ELECTRICTITY
+    name_electricity = Admin::Constants::SERVICES::NAME_ELECTRICITY
+    unit_electricity = Admin::Constants::SERVICES::UNIT_ELECTRICITY
+    unit_price_electricity = Admin::Constants::SERVICES::UNIT_PRICE_ELECTRICITY
+    description_electricity = Admin::Constants::SERVICES::NAME_ELECTRICITY
+    code_electricity = Admin::Constants::SERVICES::CODE_ELECTRICITY
+
+    # WATER
+    name_water = Admin::Constants::SERVICES::NAME_WATER
+    unit_water = Admin::Constants::SERVICES::UNIT_WATER
+    unit_price_water = Admin::Constants::SERVICES::UNIT_PRICE_WATER
+    description_water = Admin::Constants::SERVICES::NAME_WATER
+    code_water = Admin::Constants::SERVICES::CODE_WATER
+
+    # WATER PER PERSON
+    unit_water_person = Admin::Constants::SERVICES::UNIT_WATER_PER_PERSON
+    unit_price_water_person = Admin::Constants::SERVICES::UNIT_PRICE_WATER_PER_PERSON
+    code_water_person = Admin::Constants::SERVICES::CODE_WATER_PER_PERSON
+
+    query_service = "INSERT INTO services (user_id, building_id, name, unit, unit_price, description, code, service_type,created_at,updated_at) VALUES (#{user.id}, #{service_building.id}, '#{name_room}', '#{unit_room}',#{unit_price_room}, '#{description_room}', '#{code_room}',#{service_type},'#{Time.now.to_s(:db)}','#{Time.now.to_s(:db)}'), (#{user.id}, #{service_building.id}, '#{name_electricity}', '#{unit_electricity}',#{unit_price_electricity}, '#{description_electricity}', '#{code_electricity}',#{service_type},'#{Time.now.to_s(:db)}','#{Time.now.to_s(:db)}'), (#{user.id}, #{service_building.id}, '#{name_water}', '#{unit_water}',#{unit_price_water}, '#{description_water}', '#{code_water}',#{service_type},'#{Time.now.to_s(:db)}','#{Time.now.to_s(:db)}'), (#{user.id}, #{service_building.id}, '#{name_water}', '#{unit_water_person}',#{unit_price_water_person}, '#{description_water}', '#{code_water_person}',#{service_type},'#{Time.now.to_s(:db)}','#{Time.now.to_s(:db)}')"
+    Admin::Service.connection.execute(query_service)
+
+0977835699
+Thanhpv@123
+buildings_tree(buildings_tree, nil, @children, nextLevel)
+          <%= f.select :type, room_type_collection,{:include_blank => t(:room_placeholder_type)}, class: "form-control", input_html: {id: 'type' }%>
+
+
+#{ trong rails dùng để nối chuỗi các biến với nhau thay cho việc dùng <%= %> nhiều lần
+
+nil? - checks to see if variable is referencing an object or not
+empty? - may be used to check on various object types like empty string "" or empty array []
+blank? - checks for nil? or empty?.
+        <%= f.select :room_type, room_type_collection, {}, class: "form-control" %>
+
+ <select name="search[room_type]" class="form-control">
+          <option value="-1"><%= t(:room_type_selected) %></option>
+          <option value="0" <%= (@admin_room.room_type == 0 ? "selected" : "") %>><%= t(:room_type_0) %></option>
+          <option value="1" <%= (@admin_room.room_type == 1 ? "selected" : "") %>><%= t(:room_type_1) %></option>
+        </select>
+
+If expr1 is not NULL, IFNULL() returns expr1; otherwise it returns expr2.
+
+#F7941E
+
+persisted? Kiểm tra nếu có bản ghi thì return true ngược lại return false
+
+ <!--<% if @unexported_eletricity_water.include? electricity_water.month %>-->
+                      <!--<td class="text-center">-->
+                        <!--<% render partial: 'shared/action_buttons', locals: {edit_url: ajax_form_edit_by_conditions_admin_electricity_waters_url(electricity_water.room_id, electricity_water.year, electricity_water.month, electricity_water.start_electricity, electricity_water.start_water)} %>-->
+                      <!--</td>-->
+                  <!--<% else %>-->
+                      <!--<td class="text-center"></td>-->
+                  <!--<% end %>-->
+
+PDF: Hàm phân bố xác suất
+CDF: Hàm phân bố tích lũy
+p(r,c) là vị trí pixel đánh chỉ số bởi hàng r, cột c.
+I(p) = I(r,c) là giá trị của pixel tại vị trí p(r,c).
+Nếu I(p) là 1 số thì I là một ảnh đơn sắc.
+Nếu I(p) là 1 vector thì I có nhiều kênh màu (ảnh màu)
+Nếu I là 1 ảnh xám thì I(r,c) là một giá trị nguyên 8 bit trong khoảng từ 0 - 255
+Histogram hI của I là một mảng gồm 256 thành phần
+hI(g) với g = 1,2,.., 256 là một số nguyên, là số các pixel trong I có giá trị bằng g - 1
+Phép toán điểm = Phép toán LUT
+Xử lý điểm: Tăng độ sáng 
+J(r, c, b) = I(r, c, b) + g nếu I(r, c, b) + g < 256
+	   = 255 nếu I(r, c, b) + g > 255
+Saturation: độ bão hòa
+J(r, c, b) = 0 nếu I(r, c, b) - g < 0
+	   = I(r, c, b) - g nếu I(r, c, b) - g > 0
+
+wget, jsoup get data from website
+sinhvienhus-185607 
+justifyContent: căn theo trục chính
+alignItem: căn theo trục phụ
+npm uninstall -ten_thu_vien
+Props được set giá trị bởi thằng cha của nó và nó được cố định trong suốt thời gian sống của các component
+Data mà dễ bị thay đổi thì ta dùng state
+var: biến cục bộ, let: biến toàn cục
+IP Address: 118.71.113.185
+string datasource = @".\SQLEXPRESS";
+string database = "DSS_HUS";
+bloomgoo@~!@#
+http://el.hdc.org.vn
+
+<audio controls autoplay controlsList="nodownload">
+	<source src="/musics/Happy-New-Year-A-Teens.mp3" type="audio/ogg">
+	<source src="/musics/Happy-New-Year-A-Teens.mp3" type="audio/mpeg">
+</audio>
+        <%= select_tag "super_admin_user_transaction[agreement_no]", options_for_select('', @super_admin_user_transaction.agreement_no), {:class => 'select optional form-control', :id => 'agreement_no_select_box',include_blank: t(:user_transaction_agreement_no_blank)} %>
+readonly: đẩy tham số lên; disabled: Không đẩy tham số lên
+Khách thuê: Tên khách thuê, số cmnd, số điện thoại
+find(array), where(column)
+delete: xóa trên 1 bảng, destroy: xóa cả relation
+url: lấy đường dẫn tuyệt đối, path: lấy đường dẫn tương đối
+list proxy:
+http://www.xroxy.com/proxylist.php
+http://spys.ru/free-proxy-list
+http://www.proxynova.com/proxy-server-list
+
+0 là màu đen, > 0 là màu xám
+
+Part-of-Speech: đọc đoạn text ở một vài ngôn ngữ xác định được chủ ngữ, vị ngữ, động từ, danh từ...
+Named-entity recognition (từ tên riêng nhận biết ra được đối tượng như địa điểm, tên người, vị trí...)
+Enhanced++ Dependencies: Xác định đúng thứ tự vị trí của các từ trong 1 câu ( danh, tính, động, trạng)
+Sự nhận dạng đối tượng được đặt tên (NER) là một phần của việc khai thác thông tin tìm kiếm để định vị và phân loại các thực thể được đặt tên trong văn bản thành các loại được xác định trước như tên của người, địa điểm, biểu hiện thời gian, số lượng, giá trị tiền tệ, tỷ lệ phần trăm, v.v ...
+Sentiment  phân tích tình cảm nhằm xác định thái độ của người nói, nhà văn hoặc đối tượng khác liên quan đến một số chủ đề hoặc toàn cảnh theo ngữ cảnh tổng thể hoặc phản ứng cảm xúc đối với tài liệu, tương tác hoặc sự kiện
+
+FUNC > FUNC_SUB = FUNC_USER > FUNC_EMPLOYEES
+Ctrl + K : Commit code in rubymine
+Ctrl + A => Ctrl + Alt + Z: Discard file in rubymine
+rjust
+"hello".rjust(4)            #=> "hello"
+"hello".rjust(20)           #=> "               hello"
+"hello".rjust(20, '1234')   #=> "123412341234123hello"
+
+user, month(số tháng còn lại), $(số tiền của gói người dùng) => Số tiền của 1 thằng = month * $
+=> Tổng số tiền: sum(money_user)
+Số tháng còn lại = Thời gian dự trù - số tháng đã ký hợp đồng (= Thời gian kết thúc hợp đồng (ngày hết hạn dùng thử) trừ đi ngày hiện tại )
+Nếu số tháng còn lại <= 0 thì k cộng vào, > 0 thì lấy số tháng đấy nhân với số tiền của gói nó đang dùng.
+
+31/1/2018
+
+Từ khóa static(biến tĩnh) thuộc về lớp chứ không thuộc về instance(thể hiện) của lớp.
+CC(carbon copy) là kiểu gửi hữu ích khi bạn muốn một vài người khác nhận được bản sao của email, nhưng họ không phải người nhận chính.
+BCC(blind carbon copy) là kiểu gửi hữu ích khi bạn muốn gửi các bản copy đến những người khác, và không muốn họ biết về việc bạn gửi thêm các bản copy cho người khác
+
+02/02/2018
+Các thao tác dọn dẹp rác máy tính
+Windows + R => %temp%
+Windows + R => Recent place
+Windows + R => Prefetch
+
+git init
+git clone url
+git remote add name url
+git add -A: để add tất cả các file mới vào để track
+git add "name_file": để add các file được chỉ định vào để track
+git commit -m "message": commit file.
+Chuyển sang nhánh khác: git checkout name
+Tạo nhánh mới: git checkout -b name Ngoài ra cũng có thể dùng git branch name thay thế cho git checkout -b name
+Tạo 1 nhánh trên remote tương ứng với local: git push origin develop or git push --set-upstream origin develop
+
+4/2/2018
+Session: Lưu dữ liệu trên server, khi tắt trình duyệt thì session bị xóa
+Cookie: Lưu trên trình duyệt, cookie chỉ bị xóa khi người dùng chủ động xóa hoặc sau 1 khoảng thời gian nào đấy sẽ được tự động xóa.
+Lấy ví dụ đơn giản là việc đăng nhập vào fb nếu đã xóa cookie thì khi vào fb phải thao tác lần lượt nhập user, pass mới có thể đăng nhập được. Còn session khi tắt trình duyệt thì cũng tương tự phải làm lại từng đấy thao tác, nếu vẫn chưa tắt trình duyệt thì khi vào fb nó sẽ tự động đăng nhập luôn.
+
+24/2/2018
+Các mối quan hệ trong cơ sở dữ liệu:
+1-1: One-to-One (1-1) relationship is defined as the relationship between two tables where both the tables should be associated with each other based on only one matching row. This relationship can be created using Primary key-Unique foreign key constraints
+
+1. Create two Tables (Table A & Table B) with the Primary Key on Both the tables.
+2. Create Foreign key in Table B which references the Primary key of Table A.
+3. Add a Unique Constraint on the Foreign Key column of Table B.
+Example:
+Table A			Table B
+id			id
+name			title
+			A_id
+1-n: One-to-One (1-1) relationship is defined as the relationship between two tables where both the tables should be associated with each other based on only one matching row. This relationship can be created using Primary key-Unique foreign key constraints
+
+1. Create two Tables (Table A & Table B) with the Primary Key on both the tables.
+2. Create a Foreign key in Table B which references the Primary key of Table A.
+Example:
+Table A			Table B
+id			id
+name			title
+			A_id
+
+n-n: Tạo thêm bảng liên kết giữa 2 thực thể
+Ví dụ:
+Table A			Table C			Table B		
+id			A_id			id
+name			B_id			name
+26/2/2018
+Domain là tên miền.
+Hosting là dịch vụ lưu trữ dữ và chia sẻ liệu trực tuyến, là không gian trên máy chủ có cài đặt các dịch vụ Internet như world wide web (www), truyền file (FTP), Mail… ,bạn có thể chứa nội dung trang web hay dữ liệu trên không gian đó.
+
+Ví dụ: Bình thường bạn có 1 file trong máy tính, trong Localhost của bạn, giờ bạn muốn cho người khác xem thì bạn cần tải file đó lên mạng, nơi để lưu trữ file đó gọi là hosting.
+- Addon domain: Số lượng domain bạn có thể trỏ tới hosting
+– Subdomain: Số lượng tên miền phụ có thể tạo ra cho mỗi tên miền
+1/3/2018
+Phân quyền trong Laravel:
+- Policies(Chính sách): php artisan make:policy PostPolicy sẽ sinh ra class trống
+- Nếu muốn sinh ra crud tương ứng với model ta chạy lệnh: php artisan make:policy PostPolicy --model=Post
+3/3/2018
+Photoshop
+Copy Layer: Ctrl + J
+Đổi ảnh đen trắng: Ctrl + Shift + U
+Ruby: Why is it called an instance variable?
+Because the variable is unique to a specific instance of a class.
+14/3/2018
+map trong ruby dùng để duyệt mảng(key, value)
+
+https://youtu.be/zhJZAAXaFl0
+101.99.12.74
+Shazam
+24/3/2018
+Trọng số là chi phí để đi từ đỉnh này đến đỉnh kia
+Maximum Spanning Tree” - viết tắt là MST
+
+bloomgoo@103.15.51.63:/home/bloomgoo/khutro.vn.git
+
+06/04/2018
+Reset id table: ALTER TABLE documents AUTO_INCREMENT = 1
+php artisan make:migration change_column
+vnTokenizer 
+02/05/2018
+DOM là viết tắt của chữ Document Object Model, dịch tạm ra là mô hình các đối tượng trong tài liệu HTML. 
+17/05/2018 
+Xpath(XML Path Language) sử dụng path expressions để di chuyển hay truy xuất thuộc tính trong các node của XML document.
+11/06/2018iêu
+Java 8
+Lambda Expression: có 4 kiểu khai báo:
+-Type declaration: không cần khai báo kiểu của tham số, trình biên dịch có thể nhận ra kiểu dữ liệu dựa trên giá trị
+-Ngoặc đơn bao quanh tham số: Với 1 biến đơn thì không cần ngoặc, 2 biến trở đi phải thêm ngoặc đơn.
+-Ngoặc nhọn: Không cần sử dụng ngoặc nhọn nếu phần body chỉ chứa 1 câu lệnh.
+-Return keyword: Nếu phần body chỉ chứa 1 biểu thức trả về giá trị và được bao trong ngoặc nhọn thì nó sẽ tự động trả về giá trị.
+Example:   //with type declaration
+    	  MathOperation addition = (int a, int b) -> a + b;
+		
+      //with out type declaration
+      MathOperation subtraction = (a, b) -> a - b;
+		
+      //with return statement along with curly braces
+      MathOperation multiplication = (int a, int b) -> { return a * b; };
+		
+      //without return statement and without curly braces
+      MathOperation division = (int a, int b) -> a / b;
+Method Reference: giúp chỉ ra các phương thức bởi tên của chúng. 
+Method reference được miêu tả bởi ký hiệu "::", và có thể được sử dụng để chỉ các loại phương thức sau:
+-Static methods
+-Instance methods
+-Constructors using new operator (TreeSet::new)
+Default Method:Viết sẵn được phương thức trong interface
+12/06/2018
+Collection:
+-Set Interface(bên trong mỗi phần tử chỉ xuất hiện duy nhất 1 lần):
+	+TreeSet là class thực thi giao diện SetInterface, các phần tử trong set đã được sắp xếp.
+	+HashSet là class thực thi giao diện SetInterface, các phần tử được lưu trữ dưới dạng bảng băm (Hàm băm là giải thuật nhằm sinh ra các giá trị băm ứng với mỗi khối dữ liệu)
+	+EnumSet là 1 class dạng set như 2 class ở trên, tuy nhiên khác ở điểm là các phần tử trong set là enum chứ không phải object.
+-List Interface được kế thừa từ Collection Interface
+	+ArrayList là class dạng list được thực thi dựa trên mảng có kích thước thay đổi được.
+	+LinkedList là class dạng list hoạt động trên cơ sở cấu trúc dữ liệu danh sách liên kết đôi.
+	+Vector tương tự như ArrayList, điểm khác biệt là đồng bộ, có thể hoạt động đa luồng mà không cần gọi đồng bộ 1 cách tường minh.
+	+Stack là class dạng list, hoạt động dựa trên cấu trúc dữ liệu ngăn xếp với kiểu vào ra LIFO (Last in - First out).
+-Queue Interface kế thừa và mang đầy đủ phương thức từ Collection Interface.
+	+LinkedList
+	+PriorityQueue: trong đó các phần tử đã được sắp xếp.
+	+ArrayDequeue: là 1 dạng queue(queue 2 chiều) được implement dựa trên mảng
+Map Interface cho phép quản lý dữ liệu dưới dạng key-value, key là duy nhất và tương ứng với 1 key là 1 giá trị value.
+	+TreeMap là class thực thi giao diện Map Interface với dạng cây đỏ đen trong đó các key đã được sắp xếp cho phép thêm, sửa, xóa tìm kiếm đều là O(log(n)).
+	+HashMap là class thực thi giao diện Map Interface với các key được lưu trữ dưới dạng bảng băm, cho phép tìm kiếm nhanh (O(1)).
+	+EnumMap cũng là 1 Map class,tuy nhiên các key trong Map là các Enum chứ không phải là Object như các dạng Map trên.
+	+WeakHashMap tương tự như HashMap tuy nhiên các key trong map chỉ là các weak key, phần tử sẽ bị xóa khi key được giải phóng hay không còn một biến nào tham chiếu đến key nữa.
+Private Token: kkLH_3N-hDUDzN7HMTyi
+RSS Token: Un3tunDTTByj9APJHsGz
+Recovery Code:
+b94288803c588530
+338a4fff46ee4ca5
+c536997d425d6063
+73f93773899aeba0
+b8273923b5b30500
+01c2db152e510286
+457358058fdedab9
+46136828856dd81b
+c046f5a84ddb762e
+584a54a8e1b7d974
+13/06/2018 
+IoC (Inverse of Control): nó giúp làm thay đổi luồng điều khiển của chương trình một cách linh hoạt.
+Spring Container (IoC Container) sẽ tạo các đối tượng, lắp rắp chúng lại với nhau, cấu hình các đối tượng và quản lý vòng đời của chúng từ lúc tạo ra cho đến lúc bị hủy.
+Spring container sử dụng DI để quản lý các thành phần, đối tượng để tạo nên 1 ứng dụng. Các thành phần, đối tượng này gọi là Spring Bean.
+Theo cách truyền thống một đối tượng được tạo ra từ một class, các trường của nó sẽ được gán giá trị từ chính bên trong class đó. Spring đã làm ngược lại với các truyền thống, các đối tượng được tạo ra và một vài trường của nó được tiêm giá trị từ bên ngoài vào bởi một cái được gọi là IoC.
+14/06/2018
+@Service là một annotation, nó được sử dụng để chú thích trên một class để nói với Spring rằng class đó là một SpringBean.
+@Autowired được chú thích trên một trường để nói với Spring rằng hay tiêm/gán (inject) giá trị vào trường đó.
+@Repository là một annotation, nó được sử dụng để chú thích trên một class và nói với Spring rằng class đó là một SpringBean.
+@Component là một annotation, nó được chú thích trên một class để nói với Spring rằng class này là một Spring BEAN
+Không có sự khác biệt về cách dùng của @Service, @Component, @Repository, sử dụng để chú thích trên các class phù hợp với ý nghĩa và ngữ cảnh trong ứng dụng.
+@Configuration là một annotation, nó được chú thích trên một class, class này sẽ định nghĩa các Spring BEAN. 
+@ComponentScan - Nói cho Spring các package để tìm kiếm các Spring BEAN khác, Spring sẽ quét (scan) các package đó để tìm kiếm.
+@SpringBootApplication là tương đương với việc sử dụng @Configuration, @EnableAutoConfiguration và @ComponentScan với các thuộc tính mặc định của chúng.
+@SpringBootApplication giúp tự động cấu hình Spring, tự động quét toàn bộ project để tìm ra các thành phần Spring (Controller, Bean, Service,...)
